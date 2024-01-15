@@ -16,9 +16,8 @@ export const Logo: FC = () => {
 
   return (
       <>
-          <div className="flex max-w-[22rem] grow flex-col gap-4">
-            <br />
-            <Card>
+          
+            <Card className="card-component">
                 <CardContent className="pb-3 pt-6 grid grid-cols-2 gap-4">
                     <div className="w-full h-full flex justify-center items-center col-span-1 row-span-2">
                     {/* Content for top left */}
@@ -48,7 +47,7 @@ export const Logo: FC = () => {
 
 
 
-          </div>
+          
       </>
   );
 };

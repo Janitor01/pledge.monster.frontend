@@ -47,15 +47,14 @@ export const Tokenomics: FC = () => {
 
   return (
     <>
-      <div className="flex max-w-[22rem] grow flex-col gap-4">
-        <br />
-        <Card>
+     
+        <Card className="card-component ">
           <h2 className="mt-4 text-center font-mono text-gray-400">Tokenomics</h2>
-          <CardContent className="pb-3 pt-6" style={{ height: 337 }}>
+          <CardContent className="pb-3 pt-6 flex justify-center" style={{ height: 337 }}>
             <Doughnut data={data} options={options} />
           </CardContent>
         </Card>
-      </div>
+      
     </>
   )
 }

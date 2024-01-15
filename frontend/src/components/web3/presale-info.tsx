@@ -100,9 +100,8 @@ export const PresaleInfo: FC = () => {
 
   return (
     <>
-      <div className="flex max-w-[22rem] grow flex-col gap-4">
-        <br />
-        <Card>
+      
+        <Card className="card-component max-w-[22rem]">
           <h2 className="text-center font-mono text-gray-400 mt-4">Presale Progress</h2>
           <CardContent className="pb-3 pt-6">
             <div className="text-sm leading-7">
@@ -135,9 +134,9 @@ export const PresaleInfo: FC = () => {
             </div>
           </CardContent>
         </Card>
-
+        <br />
         
-        <Card>
+        <Card className="card-component max-w-[22rem]">
         <h2 className="text-center font-mono text-gray-400 mt-4">Socials</h2>
           <CardContent className="pb-5 pt-6">
             <div className="text-sm leading-7">
@@ -160,7 +159,7 @@ export const PresaleInfo: FC = () => {
           </CardContent>
         </Card>
          
-      </div>
+      
 
     </>
   )

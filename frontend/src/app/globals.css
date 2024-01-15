@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -119,4 +118,17 @@
   transition:
     height 0.1s ease 0.4s,
     opacity 0.1s ease 0.4s; /* Delayed transition when not hovered */
+}
+
+.card-component {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8); /* Adjust this shadow to your liking */
+  border-radius: 0.75rem;
+  /* Other styles */
+}
+
+.slide {
+  border-radius: 0.75rem;
+  margin-top: 4%;
+  align-items: center;
+  justify-content: center;
 }

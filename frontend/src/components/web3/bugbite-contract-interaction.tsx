@@ -99,13 +99,12 @@ export const BugBiteContractInteractions: FC = () => {
 
 
   return (
-    <div className="flex max-w-[22rem] grow flex-col gap-4">
-      <br />
+    
 
       <Form {...form}>
         {/* Buy Tokens */}
-        <Card>
-          <CardContent className="pt-6">
+        <Card className="card-component">
+          <CardContent className=" pt-6">
             <form onSubmit={handleSubmit(buyTokens)} className="flex flex-col gap-2">
               <FormItem>
                 <FormLabel className="text-base">PAY: $AZERO</FormLabel>
@@ -133,6 +132,6 @@ export const BugBiteContractInteractions: FC = () => {
       </Form>
 
      
-    </div>
+    
   )
 }
