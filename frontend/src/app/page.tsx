@@ -1,44 +1,64 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
-import { toast } from 'react-hot-toast'
-import { ContractIds } from '@/deployments/deployments'
-import { HomePageTitle } from '@/app/components/home-page-title'
-import { ChainInfo } from '@/components/web3/chain-info'
-import { PresaleInfo } from '@/components/web3/presale-info'
-import { Tokenomics } from '@/components/web3/tokenomics'
-import { Logo } from '@/components/web3/logo'
-import { ConnectButton } from '@/components/web3/connect-button'
-import { GreeterContractInteractions } from '@/components/web3/greeter-contract-interactions'
-import { BugBiteContractInteractions } from '@/components/web3/bugbite-contract-interaction'
-import { HomeTopBar } from './components/home-top-bar'
-import { contractQuery, useInkathon, useRegisteredContract } from '@scio-labs/use-inkathon'
+import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { ContractIds } from '@/deployments/deployments';
+import { HomePageTitle } from '@/app/components/home-page-title';
+import { ChainInfo } from '@/components/web3/chain-info';
+import { PresaleInfo } from '@/components/web3/presale-info';
+import { Tokenomics } from '@/components/web3/tokenomics';
+import { Logo } from '@/components/web3/logo';
+import { ConnectButton } from '@/components/web3/connect-button';
+import { GreeterContractInteractions } from '@/components/web3/greeter-contract-interactions';
+import { BugBiteContractInteractions } from '@/components/web3/bugbite-contract-interaction';
+import { HomeTopBar } from './components/home-top-bar';
+import { contractQuery, useInkathon, useRegisteredContract } from '@scio-labs/use-inkathon';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import themedark from 'public/icons/themedark.svg'
+import themelight from 'public/icons/themelight.svg'
 import 'swiper/css';
+import Image from 'next/image';
 import { Navigation, Pagination, Scrollbar, A11y, EffectCoverflow } from 'swiper/modules';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 import './globals.css';
-import { AlignCenter } from 'lucide-react'
-
-
-
-
+import { AlignCenter } from 'lucide-react';
 
 export default function HomePage() {
-  // Display `useInkathon` error messages (optional)
-  const { error } = useInkathon()
-  useEffect(() => {
-    if (!error) return
-    toast.error(error.message)
-  }, [error])
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.bugbite)
+  const [theme, setTheme] = useState('light'); // Set default theme as 'light'
 
-  
-  
-  
+  useEffect(() => {
+    // Access localStorage only after component mounts
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+
+    // Apply the saved theme class to the body element
+    document.body.className = savedTheme;
+  }, []);
+
+  const themeIcon = theme === 'light' ? themedark : themelight;
+  const themeLabel = theme === 'light' ? 'Dark' : 'Light';
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+
+    // Apply the new theme class to the body element
+    document.body.className = newTheme;
+  };
+
+  // Display `useInkathon` error messages (optional)
+  const { error } = useInkathon();
+  useEffect(() => {
+    if (!error) return;
+    toast.error(error.message);
+  }, [error]);
+
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.bugbite);
 
   return (
     <>
@@ -105,6 +125,12 @@ export default function HomePage() {
           Contract Address: <br />
           {contract ? contractAddress : 'Loading…'}
         </p>
+
+        {/* Theme Toggle Button */}
+        <button onClick={toggleTheme} className="theme-toggle">
+        <Image src={themeIcon} priority height={18} width={18} alt={`${themeLabel} Theme Icon`} />
+      
+      </button>
       </div>
     </>
   );

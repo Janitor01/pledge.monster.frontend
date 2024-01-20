@@ -64,6 +64,36 @@
 
     --radius: 0.75rem; /* Border radius for rounded corners */
   }
+
+  .light {
+    --background: 210 25% 90%; /* A deep blue-gray for the background */
+    --foreground: 0 0% 0%; /* Black for contrast and readability */
+
+    --card: 210 25% 99%; /* A slightly lighter blue-gray for card backgrounds */
+    --card-foreground: 0 0% 0%; /* Black text on cards */
+
+    --popover: 210 25% 90%; /* Same as card for consistency */
+    --popover-foreground: 0 0% 0%; /* Black text on popovers */
+
+    --primary: 210 100% 40%; /* WALLET BUTTON WHEN DISCONNECTED */
+    --primary-foreground: 0 0% 100%; /* White text on primary elements */
+
+    --secondary: 210 100% 60%; /* A lighter blue for secondary elements */
+    --secondary-foreground: 0 0% 100%; /* White text on secondary elements */
+
+    --muted: 210 20% 90%; /* Muted blue for less emphasis */
+    --muted-foreground: 0 0% 0%; /* Black text on muted elements */
+
+    --accent: 33 100% 50%; /* A green accent color for success messages, etc. */
+    --accent-foreground: 0 0% 100%; /* White text on accent elements */
+
+    --destructive: 0 75% 60%; /* Red for error states or warnings */
+    --destructive-foreground: 0 0% 100%; /* White text on destructive elements */
+
+    --border: 210 15% 20%; /* Border color slightly lighter than background */
+    --input: 210 15% 18%; /* Input fields same as card color */
+    --ring: 210 100% 40%; /* Focus ring color same as primary */
+  }
 }
 
 @layer base {
