@@ -31,7 +31,7 @@
     --input: 220 13% 91%;
     --ring: 262.1 83.3% 57.8%;
 
-    --radius: 0.75rem;
+    --radius: 0.25rem;
   }
 
   .dark {
@@ -62,7 +62,7 @@
     --input: 210 15% 18%; /* Input fields same as card color */
     --ring: 210 100% 40%; /* Focus ring color same as primary */
 
-    --radius: 0.75rem; /* Border radius for rounded corners */
+    --radius: 0.25rem; /* Border radius for rounded corners */
   }
 
   .light {
@@ -90,9 +90,11 @@
     --destructive: 0 75% 60%; /* Red for error states or warnings */
     --destructive-foreground: 0 0% 100%; /* White text on destructive elements */
 
-    --border: 210 15% 20%; /* Border color slightly lighter than background */
+    --border: 210 15% 95%; /* Border color slightly lighter than background */
     --input: 210 15% 18%; /* Input fields same as card color */
     --ring: 210 100% 40%; /* Focus ring color same as primary */
+
+    --radius: 0.25rem; /* Border radius for rounded corners */
   }
 }
 
@@ -152,13 +154,36 @@
 
 .card-component {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8); /* Adjust this shadow to your liking */
-  border-radius: 0.75rem;
+  border-radius: 0.25rem;
   /* Other styles */
 }
 
 .slide {
   border-radius: 0.75rem;
-  margin-top: 4%;
+  margin-top: 10%;
   align-items: center;
   justify-content: center;
+}
+
+.swiper-3d {
+  perspective: 280px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    /* Reset or override styles here */
+    margin: 0;
+    width: 100%;
+    padding: 0;
+    /* Add any other properties to reset the container's styling */
+  }
+}
+
+@media (max-width: 768px) {
+  .slide {
+    border-radius: 0.75rem;
+    margin-top: 25%;
+    align-items: center;
+    justify-content: center;
+  }
 }
