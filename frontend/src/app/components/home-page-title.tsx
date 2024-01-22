@@ -1,55 +1,145 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { AnchorHTMLAttributes, FC, useState } from 'react'
+import { FC } from 'react';
 
+type HomePageTitleProps = {
+  activeSlide: number;
+};
 
-import githubIcon from 'public/icons/github-button.svg'
-import telegramIcon from 'public/icons/telegram-button.svg'
-import vercelIcon from 'public/icons/vercel-button.svg'
-import inkathonLogo from 'public/images/inkathon-logo.png'
+export const HomePageTitle: FC<HomePageTitleProps> = ({ activeSlide }) => {
 
-import { cn } from '@/utils/cn'
+  let content;
+  switch (activeSlide) {
+    case 0:
+      content = (
+        <div>
+          <h1 className="text-[2.5rem] font-black tracking-tighter">Welcome to Pledge Monster!</h1>
+          
+          <p className="text-m mt-2  w-10/12 mx-auto">
+            Discover a world where dreams become reality. Pledge Monster is your go-to platform for turning ideas into successful projects. Join us on this exciting journey!
+          </p>
+        </div>
 
+      );
+    break;
+    case 1:
+      content = (
+        <div>
+          <h1 className="text-[2.5rem] font-black tracking-tighter">Choose Your Category</h1>
+        
+          <p className="text-m mt-2  w-10/12 mx-auto">
+            Select the perfect category and subcategory for your project. Whether its tech innovation or creative arts, find your niche here and let your idea shine!
+          </p>
+        </div>
 
+      );
+    break;
+    case 2:
+      content = (
+        <div>
+          <h1 className="text-[2.5rem] font-black tracking-tighter">Your Projects Location</h1>
+          
+          <p className="text-m mt-2 w-10/12 mx-auto">
+            Tell us where your project is based. Connecting with local communities or reaching a global audience starts with your location.
+          </p>
+        </div>
 
+      );
+    break;
+    case 3:
+      content = (
+        <div>
+          <h1 className="text-[2.5rem] font-black tracking-tighter">Media Matters</h1>
+          
+          <p className="text-m mt-2  w-10/12 mx-auto">
+            Bring your project to life with images and videos. Show your audience the vision and passion behind your idea.
+          </p>
+        </div>
 
-export const HomePageTitle: FC = () => {
-  const title = '$IOU PRESALE'
-  const desc = 'Brought to you by Office Party'
-  const [isExpanded, setIsExpanded] = useState(false);
-  const toggleText = () => setIsExpanded(!isExpanded);
+      );
+    break;
+    case 4:
+      content = (
+        <div>
+          <h1 className="text-[2.5rem] font-black tracking-tighter">Set Your Timeline</h1>
+        
+          <p className="text-m mt-2 w-10/12 mx-auto">
+            Choose your launch date and campaign duration. Timing is key to success – plan your journey with us!
+          </p>
+        </div>
 
+      );
+    break;
+    case 5:
+      content = (
+        <div>
+          <h1 className="text-[2.5rem] font-black tracking-tighter">Goals and Rewards</h1>
+          
+          <p className="text-m mt-2  w-10/12 mx-auto">
+            Set your funding targets and create attractive reward tiers for your backers. Let your supporters become a part of your success.
+          </p>
+        </div>
+
+      );
+    break;
+    case 6:
+      content = (
+        <div>
+          <h1 className="text-[2.5rem] font-black tracking-tighter">Story and Challenges</h1>
+          
+          <p className="text-m mt-2  w-10/12 mx-auto">
+            Share the journey that led you here. Be transparent about potential risks and challenges, and how you plan to overcome them.
+          </p>
+        </div>
+
+      );
+    break;
+    case 7:
+      content = (
+        <div>
+          <h1 className="text-[2.5rem] font-black tracking-tighter">FAQ</h1>
+        
+          <p className="text-m mt-2  w-10/12 mx-auto">
+            Address common queries and concerns. Your FAQs can provide reassurance and clarity to your backers.
+          </p>
+        </div>
+
+      );
+    break;
+    case 8:
+      content = (
+        <div>
+          <h1 className="text-[2.5rem] font-black tracking-tighter">Project Information</h1>
+          
+          <p className="text-m mt-2  w-10/12 mx-auto">
+            Detail the specifics of your project. What are you creating? Whats the vision? Let your audience know everything about your project.
+          </p>
+        </div>
+
+      );
+    break;
+    case 9:
+      content = (
+        <div>
+          <h1 className="text-[2.5rem] font-black tracking-tighter">Meet the Team</h1>
+          
+          <p className="text-m mt-2  w-10/12 mx-auto">
+            Introduce your talented team. Share your stories and experiences that make you the perfect group to bring this project to life.
+          </p>
+        </div>
+
+      );
+    break;
+    
+    default:
+      content = "Default Content";
+  }
 
   return (
     <>
-      <div className="mt-20 flex flex-col items-center text-center font-mono">
-        {/* Logo & Title */}
-      
-      
-          <h1 className="text-[2.5rem] font-black tracking-tighter">{title}</h1>
-        
-
-        {/* Tagline & Lincks */}
-        <p className="mb-2 mt-4 text-gray-400">{desc}</p>
-
-        <div
-          className={`text-container ${isExpanded ? 'expanded' : ''} flex flex-col items-center text-center font-mono overflow-hidden`}
-          style={{ position: 'relative', maxWidth: '46rem', textAlign: 'justify' }}
-          onClick={toggleText}
-        >
-          <p>
-          
-        $IOU, short for I Owe You, is an engaging meme token presented by Office Party, exclusively designed for the Aleph Zero ecosystem. 
-        In line with the ethos of Office Party, $IOU boasts a commitment to 100% community engagement, humorously coupled with a promise of zero utility. 
-        
-        
-        </p>
+      <div className="flex items-center text-center font-mono">
+        <div className="container flex flex-col justify-center items-center text-center font-mono overflow-hidden content-container">
+          {content}
         </div>
-        
-
-
-        <div className="mt-8  h-[1px] w-[5rem] max-w-46rem bg-gray-800" />
       </div>
     </>
-  )
-}
+  );
+};

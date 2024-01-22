@@ -37,14 +37,12 @@ import './globals.css';
 import { AlignCenter } from 'lucide-react';
 
 export default function HomePage() {
-  const [theme, setTheme] = useState('light'); // Set default theme as 'light'
+  const [theme, setTheme] = useState('light'); 
+  const [activeSlide, setActiveSlide] = useState(0); 
 
   useEffect(() => {
-    // Access localStorage only after component mounts
     const savedTheme = localStorage.getItem('theme') || 'light';
     setTheme(savedTheme);
-
-    // Apply the saved theme class to the body element
     document.body.className = savedTheme;
   }, []);
 
@@ -55,19 +53,15 @@ export default function HomePage() {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
-
-    // Apply the new theme class to the body element
     document.body.className = newTheme;
   };
 
-  // Display `useInkathon` error messages (optional)
+
   const { error } = useInkathon();
   useEffect(() => {
     if (!error) return;
     toast.error(error.message);
   }, [error]);
-
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.bugbite);
 
   return (
     <>
@@ -76,7 +70,8 @@ export default function HomePage() {
         <HomeTopBar />
       </div>
 
-      <div className="container  flex grow flex-col items-center justify-center">       
+      <div className="container  flex grow flex-col items-center justify-center">    
+      <HomePageTitle activeSlide={activeSlide} />   
         <Swiper
           className="swiper-3d"
           modules={[Navigation, Pagination, A11y, EffectCoverflow]}
@@ -107,7 +102,7 @@ export default function HomePage() {
           centeredSlides={true}
           pagination={{ type: 'progressbar', clickable: false }}
           navigation={{ enabled: true }}
-          onSlideChange={() => console.log('slide change')}
+          onSlideChange={(swiper) => setActiveSlide(swiper.activeIndex)}
           onSwiper={(swiper) => console.log(swiper)}
 
           breakpoints={{
@@ -128,6 +123,8 @@ export default function HomePage() {
             },
             
           }}    
+
+
         >
 
           
