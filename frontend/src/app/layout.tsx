@@ -19,15 +19,15 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'ink!athon Boilerplate',
-  description: 'Full-Stack DApp Boilerplate for ink! Smart Contracts',
+  title: 'The Monster Pledge',
+  description: 'Client for the First Crowdfund dApp on AlephZero',
   metadataBase: new URL(env.url),
   robots: env.isProduction ? 'all' : 'noindex,nofollow',
   openGraph: {
     type: 'website',
     locale: 'en',
     url: env.url,
-    siteName: 'ink!athon Boilerplate',
+    siteName: 'pledge.monster',
     images: [
       {
         url: '/images/inkathon-og-banner.jpg',
@@ -37,8 +37,8 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    site: '@scio_xyz',
-    creator: '@scio_xyz',
+    site: '@pledge.monster',
+    creator: '@pledge.monster',
     card: 'summary_large_image',
   },
 }
