@@ -1,13 +1,13 @@
 'use client'
 
 import { FC } from 'react'
-import { Doughnut } from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
+
+import Chart from 'chart.js/auto'
+import { Doughnut } from 'react-chartjs-2'
+
 import { Card, CardContent } from '@/components/ui/card'
 
 export const Tokenomics: FC = () => {
-
-  
   const data = {
     datasets: [
       {
@@ -41,20 +41,18 @@ export const Tokenomics: FC = () => {
     },
     animation: {
       animateRotate: true, // Enable rotation animation
-      animateScale: true   // Enable scaling animation from the center
-    }
+      animateScale: true, // Enable scaling animation from the center
+    },
   }
 
   return (
     <>
-     
-        <Card className="card-component ">
-          <h2 className="mt-4 text-center font-mono text-gray-400">Tokenomics</h2>
-          <CardContent className="pb-3 pt-6 flex justify-center" style={{ height: 337 }}>
-            <Doughnut data={data} options={options} />
-          </CardContent>
-        </Card>
-      
+      <Card className="card-component ">
+        <h2 className="mt-4 text-center font-mono text-gray-400">Tokenomics</h2>
+        <CardContent className="flex justify-center pb-3 pt-6" style={{ height: 337 }}>
+          <Doughnut data={data} options={options} />
+        </CardContent>
+      </Card>
     </>
   )
 }

@@ -2,9 +2,10 @@
 
 import Link from 'next/link'
 import { FC } from 'react'
-import { ConnectButton } from '@/components/web3/connect-button'
 
 import { HiOutlineExternalLink } from 'react-icons/hi'
+
+import { ConnectButton } from '@/components/web3/connect-button'
 
 export const HomeTopBar: FC = () => {
   return (
@@ -29,5 +30,5 @@ export const HomeTopBar: FC = () => {
         <ConnectButton />
       </div>
     </>
-  );
-};
+  )
+}

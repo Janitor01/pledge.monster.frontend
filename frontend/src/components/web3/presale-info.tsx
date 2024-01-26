@@ -1,15 +1,17 @@
 'use client'
 
-import { FC, useEffect, useState, useCallback, AnchorHTMLAttributes } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { FC, useEffect, useState, useCallback, AnchorHTMLAttributes } from 'react'
+
 import { ContractIds } from '@/deployments/deployments'
 import { contractQuery, useInkathon, useRegisteredContract } from '@scio-labs/use-inkathon'
-import { Card, CardContent } from '@/components/ui/card'
 import discord from 'public/icons/discord.svg'
+import internet from 'public/icons/internet.svg'
 import telegram from 'public/icons/telegram.svg'
 import twitter from 'public/icons/twitter.svg'
-import internet from 'public/icons/internet.svg'
+
+import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/utils/cn'
 
 interface StyledIconLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -91,7 +93,8 @@ export const PresaleInfo: FC = () => {
     const tokensSoldNumber = parseFloat(tokensSold)
     const totalPresaleTokensNumber = parseFloat(totalPresaleTokens)
     const originalTotalPresaleTokens = tokensSoldNumber + totalPresaleTokensNumber
-    const progressPercentage = originalTotalPresaleTokens > 0 ? (tokensSoldNumber / originalTotalPresaleTokens) * 100 : 0
+    const progressPercentage =
+      originalTotalPresaleTokens > 0 ? (tokensSoldNumber / originalTotalPresaleTokens) * 100 : 0
 
     setTimeout(() => {
       setProgressWidth(progressPercentage)
@@ -100,67 +103,63 @@ export const PresaleInfo: FC = () => {
 
   return (
     <>
-      
-        <Card className="card-component max-w-[22rem]">
-          <h2 className="text-center font-mono text-gray-400 mt-4">Presale Progress</h2>
-          <CardContent className="pb-3 pt-6">
-            <div className="text-sm leading-7">
-          
-              <div className="w-full bg-gray-200 rounded-full h-8 dark:bg-gray-700 overflow-hidden">
-                <div
-                  className="bg-blue-600 h-8 rounded-full progress-bar flex items-center justify-center text-white font-bold"
-                  style={{ width: `${progressWidth}%`, borderRadius: '9999px' }}
-                >
-                  {Math.round(progressWidth)}%
-                </div>
+      <Card className="card-component max-w-[22rem]">
+        <h2 className="mt-4 text-center font-mono text-gray-400">Presale Progress</h2>
+        <CardContent className="pb-3 pt-6">
+          <div className="text-sm leading-7">
+            <div className="h-8 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+              <div
+                className="progress-bar flex h-8 items-center justify-center rounded-full bg-blue-600 font-bold text-white"
+                style={{ width: `${progressWidth}%`, borderRadius: '9999px' }}
+              >
+                {Math.round(progressWidth)}%
               </div>
             </div>
-            <br></br>
-            <div className="text-sm leading-7">
-              Tokens Sold:
-              <strong className="float-right ml-6">{tokensSold}</strong>
-            </div>
-            <div className="text-sm leading-7">
-              Remaining Tokens:
-              <strong className="float-right ml-6">{totalPresaleTokens}</strong>
-            </div>
-            <div className="text-sm leading-7">
-              Presale Tokens:
-              <strong className="float-right ml-6">{parseFloat(tokensSold) + parseFloat(totalPresaleTokens)}</strong>
-            </div>
-            <div className="text-sm leading-7">
-              Total Supply:
-              <strong className="float-right ml-6">1000</strong>
-            </div>
-          </CardContent>
-        </Card>
-        <br />
-        
-        <Card className="card-component max-w-[22rem]">
-        <h2 className="text-center font-mono text-gray-400 mt-4">Socials</h2>
-          <CardContent className="pb-5 pt-6">
-            <div className="text-sm leading-7">
-            
-            <div className="flex select-none space-x-2">
-          <StyledIconLink href={discordHref} target="_blank">
-            <Image src={discord} priority height={32} alt="Discord" />
-          </StyledIconLink>
-          <StyledIconLink href={telegramHref} target="_blank">
-            <Image src={telegram} priority height={32} alt="Telegram" />
-          </StyledIconLink>
-          <StyledIconLink href={twitterHref} target="_blank">
-            <Image src={twitter} priority height={32} alt="X" />
-          </StyledIconLink>
-          <StyledIconLink href={internetHref} target="_blank">
-            <Image src={internet} priority height={32} alt="Website" />
-          </StyledIconLink>
-        </div>
-            </div>
-          </CardContent>
-        </Card>
-         
-      
+          </div>
+          <br></br>
+          <div className="text-sm leading-7">
+            Tokens Sold:
+            <strong className="float-right ml-6">{tokensSold}</strong>
+          </div>
+          <div className="text-sm leading-7">
+            Remaining Tokens:
+            <strong className="float-right ml-6">{totalPresaleTokens}</strong>
+          </div>
+          <div className="text-sm leading-7">
+            Presale Tokens:
+            <strong className="float-right ml-6">
+              {parseFloat(tokensSold) + parseFloat(totalPresaleTokens)}
+            </strong>
+          </div>
+          <div className="text-sm leading-7">
+            Total Supply:
+            <strong className="float-right ml-6">1000</strong>
+          </div>
+        </CardContent>
+      </Card>
+      <br />
 
+      <Card className="card-component max-w-[22rem]">
+        <h2 className="mt-4 text-center font-mono text-gray-400">Socials</h2>
+        <CardContent className="pb-5 pt-6">
+          <div className="text-sm leading-7">
+            <div className="flex select-none space-x-2">
+              <StyledIconLink href={discordHref} target="_blank">
+                <Image src={discord} priority height={32} alt="Discord" />
+              </StyledIconLink>
+              <StyledIconLink href={telegramHref} target="_blank">
+                <Image src={telegram} priority height={32} alt="Telegram" />
+              </StyledIconLink>
+              <StyledIconLink href={twitterHref} target="_blank">
+                <Image src={twitter} priority height={32} alt="X" />
+              </StyledIconLink>
+              <StyledIconLink href={internetHref} target="_blank">
+                <Image src={internet} priority height={32} alt="Website" />
+              </StyledIconLink>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </>
   )
 }
