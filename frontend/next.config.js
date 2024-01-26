@@ -10,7 +10,7 @@ const nextConfig = {
   // Fix for warnings about cjs/esm package duplication
   // See: https://github.com/polkadot-js/api/issues/5636
   transpilePackages: [
-    '**@polkadot/**',
+    '@polkadot/',
     '@polkadot/api',
     '@polkadot/api-contract',
     '@polkadot/extension-dapp',
