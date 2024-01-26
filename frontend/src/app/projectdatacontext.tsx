@@ -11,20 +11,20 @@ type ProjectData = {
     video_url: string; // Media.tsx
     launch_date: number; // Unix timestamp Launch.tsx
     duration: number; // in seconds Launch.tsx
-    funding_goals: number[]; // Assuming 'Balance' type is represented as number in UI Goals.tsx
+    funding_goal: number; //  Goals.tsx
     reward_tiers: RewardTier[]; // Goals.tsx
     story: string; // story.tsx
     risks_and_challenges: string; // story.tsx
     faqs: FAQ[]; // faq.tsx
     project_info: ProjectInfo; // projectinfo.tsx
     member_info: TeamMember[]; // teaminfo.tsx
-    wallet: string; // Assuming AccountId type is represented as string in UI
+    wallet: string; 
     project_urls: string[];
 };
 
 
 type RewardTier = {
-    amount: number; // Assuming 'Balance' type is represented as number in UI
+    amount: number;
     description: string;
 };
 
@@ -36,8 +36,8 @@ type FAQ = {
 type ProjectInfo = {
     name: string;
     info: string;
-    image_url: string;
-    video_url: string;
+    project_image_url: string;
+    project_video_url: string;
     social_media_links: string[];
 };
 
@@ -53,7 +53,7 @@ const ProjectDataContext = createContext<{
     projectData: ProjectData;
     setProjectData: (data: ProjectData) => void;
 }>({
-    projectData: {} as ProjectData, // Explicitly cast the empty object to ProjectData
+    projectData: {} as ProjectData, 
     setProjectData: () => {},
 });
 

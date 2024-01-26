@@ -1,66 +1,260 @@
-'use client'
-import React, { FC } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+'use client';
+import React, { FC, useState, useRef, useEffect } from 'react';
+import { useForm, FormProvider, useFieldArray } from 'react-hook-form';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useProjectData } from '../../app/projectdatacontext';
-import { cn } from "@/utils/cn";
-import { Button } from '@/components/ui/button'
+import Image from 'next/image';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import { Navigation, Pagination, Scrollbar, A11y, EffectCoverflow } from 'swiper/modules';
 
-type TeamInfoFormData = {
-    title: string;
-    elevator_pitch: string;
-    // ...other fields as needed
+type TeamMember = {
+    name: string;
+    role: string;
+    image_url: string;
+    social_media_links: string[];
 };
 
-export const TeamInfo: FC = () => {
-    const methods = useForm<TeamInfoFormData>();
+type TeamInfoFormData = {
+    team_members: TeamMember[];
+};
+
+
+const inputClassName = "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
+
+export const TeamInfo: FC<{ theme: string }> = ({ theme }) => {
+    const methods = useForm<TeamInfoFormData>({
+        defaultValues: {
+            team_members: []
+        }
+    });
+    const { fields, append, remove } = useFieldArray({
+        control: methods.control,
+        name: 'team_members'
+    });
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const modalRef = useRef<HTMLDivElement>(null);
     const { projectData, setProjectData } = useProjectData();
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+    const handleAddTeamMember = (member: TeamMember) => {
+        append(member);
+        setIsModalOpen(false);
+    };
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
 
     const onSubmit = (data: TeamInfoFormData) => {
         console.log(data);
         setProjectData({ ...projectData, ...data });
     };
 
-     // Adjusted input style for full width
-     const inputClassName = "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
+    
 
-     return (
-         <FormProvider {...methods}>
-             <Card className="card-component">
-                 <CardContent className="pb-3 pt-6">
-                     <form onSubmit={methods.handleSubmit(onSubmit)} className="flex flex-col gap-2">
-                         <div className={cn("space-y-2 w-full")}>
-                            <label htmlFor="title" className={cn(methods.formState.errors.title && "text-destructive", "text-base")}>
-                                Project Title
-                            </label>
-                            <input 
-                              {...methods.register('title')} 
-                              type="text" 
-                              id="title" 
-                              className={inputClassName} 
+    const socialMediaPlatforms = [
+        { name: 'Twitter', iconPath: '/icons/twitter.svg' },
+        { name: 'Telegram', iconPath: '/icons/telegram.svg' },
+        { name: 'Discord', iconPath: '/icons/discord.svg' },
+        { name: 'Github', iconPath: '/icons/github.svg' },
+    ];
+
+    return (
+        <>
+          <FormProvider {...methods}>
+            <Card className="card-component">
+              <CardContent className="pb-3 pt-6">
+                <form onSubmit={methods.handleSubmit(onSubmit)} className="flex flex-col gap-2">
+                  <Button type="button" onClick={openModal}>
+                    Add New Team Member
+                  </Button>
+    
+                  <Swiper
+                    className="team-info-swiper"
+                    modules={[Navigation, A11y]}
+                    spaceBetween={10}
+                    slidesPerView={'auto'}
+                    onSlideChange={() => console.log('slide change')}
+                    onSwiper={(swiper) => console.log(swiper)}
+                    navigation={{ enabled: true }}
+                    style={{ 
+                        width: '100%',  
+                        margin: '0 auto',
+                        marginTop: '2%',
+                        paddingLeft: 0,
+                        borderRadius: '15px',
+                        background: theme === 'light' ? '#D1DBE1' : '#3C4143',
+                       
+                    
+                        ...({ 
+                          "--swiper-navigation-sides-offset": "2%",  
+                          "--swiper-navigation-color": "white",      
+                        } as React.CSSProperties)
+                        
+                      }} 
+                    
+                  >
+                    {fields.map((field, index) => (
+                      <SwiperSlide key={field.id} className="team-info-swiper">
+                        <div className={'team-member-item ${theme}-theme'}>
+                          {field.image_url ? (
+                            <img 
+                              src={field.image_url} 
+                              alt={field.name} 
+                              onError={(e) => { e.currentTarget.src = 'default-image-url'; }} 
                             />
-                            {/* Error messages and descriptions as before */}
+                          ) : <div>No Image Available</div>}
+                          <div>{field.name}<br />{field.role}</div>
+                          <Button 
+                            type="button" 
+                            onClick={() => remove(index)}>
+                            Remove
+                          </Button>
                         </div>
-                        <div className={cn("space-y-2")}>
-                            <label htmlFor="elevator_pitch" className={cn(methods.formState.errors.elevator_pitch && "text-destructive", "text-base")}>
-                                Elevator Pitch
-                            </label>
-                            <input 
-                              {...methods.register('elevator_pitch')} 
-                              type="text" 
-                              id="elevator_pitch" 
-                              className={inputClassName} 
-                            />
-                            {/* Error messages and descriptions as before */}
-                        </div>
-                        <Button>
-                        <input type="submit" value="Submit" className={cn("submit-button-style")}/>
-                        </Button>
-                    </form>
-                </CardContent>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+    
+                  <Button>
+                    <input type="submit" value="Submit" />
+                  </Button>
+                </form>
+              </CardContent>
             </Card>
-        </FormProvider>
+          </FormProvider>
+
+            {isModalOpen && (
+                <div className="popup-style" ref={modalRef}>
+                    <TeamMemberFormModal onConfirm={handleAddTeamMember} theme={theme} socialMediaPlatforms={socialMediaPlatforms} />
+                </div>
+            )}
+        </>
     );
 };
 
 export default TeamInfo;
+
+const TeamMemberFormModal: FC<{ onConfirm: (member: TeamMember) => void, theme: string, socialMediaPlatforms: any[] }> = ({ onConfirm, theme, socialMediaPlatforms }) => {
+    const { register, handleSubmit, reset, setValue, getValues } = useForm<TeamMember>();
+    const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
+    const [socialMediaLinks, setSocialMediaLinks] = useState<{[key: string]: string}>({});
+    
+    const [showSocialMediaLinkForm, setShowSocialMediaLinkForm] = useState(false);
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+
+    const handleImageUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newUrl = e.target.value;
+        setValue('image_url', newUrl);
+        setImagePreviewUrl(newUrl);
+    };
+
+    const handleSocialMediaIconClick = (platform: string) => {
+        setSelectedPlatform(platform);
+        setShowSocialMediaLinkForm(true);
+    };
+
+    const handleAddSocialMediaLink = (platform: string, url: string) => {
+        setSocialMediaLinks({ ...socialMediaLinks, [platform]: url });
+        setSelectedPlatform(null);
+    };
+
+    const onSubmit = () => {
+        const nameValue = getValues('name');
+        const roleValue = getValues('role');
+    
+        const updatedData = {
+            name: nameValue,
+            role: roleValue,
+            image_url: imagePreviewUrl || '', 
+            social_media_links: Object.entries(socialMediaLinks).map(([_, url]) => url) 
+        };
+    
+        console.log("Submitting data:", updatedData);
+        onConfirm(updatedData);
+        reset();
+    };
+    
+    
+    
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+                setShowSocialMediaLinkForm(false);
+                setSelectedPlatform(null);
+                reset();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [reset]);
+
+    return (
+        <>
+            <div className="modal-content-wrapper" ref={modalRef}>
+                <Card className="card-component">
+                    <CardContent className="pb-3 pt-6">
+                        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+                            <input {...register('name')} placeholder="Name" className={inputClassName} />
+                            <input {...register('role')} placeholder="Role" className={inputClassName} />
+                            <input 
+                                value={getValues('image_url') || ''}
+                                onChange={handleImageUrlChange}
+                                placeholder="Image URL" 
+                                className={inputClassName} 
+                            />
+                            {imagePreviewUrl && <img src={imagePreviewUrl} alt="Preview" className="w-1/3 h-auto" />}
+                            <h2 className="text-center font-mono text-gray-400 mt-4">Social Media</h2>
+                            <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginTop: '1%', marginBottom: '2%' }}>
+                                {socialMediaPlatforms.map(platform => (
+                                    <div key={platform.name} onClick={() => handleSocialMediaIconClick(platform.name)} className="social-media-icon">
+                                        <Image src={platform.iconPath} alt={platform.name} width={24} height={24} className={theme === 'light' ? 'invert-image' : ''} />
+                                    </div>
+                                ))}
+                            </div>
+                            <Button type="submit">Confirm</Button>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
+            {showSocialMediaLinkForm && selectedPlatform && (
+                <div className="popup-style-two" ref={modalRef}>
+                    <SocialMediaLinkForm onConfirm={handleAddSocialMediaLink} platform={selectedPlatform} />
+                </div>
+            )}
+        </>
+    );
+    
+};
+
+
+
+
+const SocialMediaLinkForm: FC<{ onConfirm: (platform: string, url: string) => void, platform: string }> = ({ onConfirm, platform }) => {
+    const { register, handleSubmit, reset } = useForm<{ url: string }>();
+
+    const onSubmit = (data: { url: string }) => {
+        onConfirm(platform, data.url);
+        reset();
+    };
+
+    return (
+        <div className="modal-content-wrapper" style={{ width: '80%', margin: 'auto', zIndex: 1000 }}>
+            <Card className="card-component">
+                <CardContent className="pb-3 pt-6">
+                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+                        <input {...register('url')} placeholder={`${platform} Link`} className={inputClassName} />
+                        <Button type="submit">Add Link</Button>
+                    </form>
+                </CardContent>
+            </Card>
+        </div>
+    );
+};
+

@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { ContractIds } from '@/deployments/deployments';
 import { HomePageTitle } from '@/app/components/home-page-title';
-import { ChainInfo } from '@/components/web3/chain-info';
-import { PresaleInfo } from '@/components/web3/presale-info';
 import { Intro } from '@/components/web3/intro';
 import { Category } from '@/components/web3/category';
 import { Location } from '@/components/web3/location';
@@ -18,7 +16,7 @@ import { ProjectInfo } from '@/components/web3/projectinfo';
 import { TeamInfo } from '@/components/web3/teaminfo';
 import { ConnectButton } from '@/components/web3/connect-button';
 import { GreeterContractInteractions } from '@/components/web3/greeter-contract-interactions';
-import { BugBiteContractInteractions } from '@/components/web3/bugbite-contract-interaction';
+
 import { HomeTopBar } from './components/home-top-bar';
 import { contractQuery, useInkathon, useRegisteredContract } from '@scio-labs/use-inkathon';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -72,8 +70,9 @@ export default function HomePage() {
 
       <div className="container  flex grow flex-col items-center justify-center">    
       <HomePageTitle activeSlide={activeSlide} />   
+      
         <Swiper
-          className="swiper-3d"
+          className="swiper-3d swiper-container"
           modules={[Navigation, Pagination, A11y, EffectCoverflow]}
           autoHeight={true}
           effect='coverflow'       
@@ -87,13 +86,13 @@ export default function HomePage() {
           
           style={{ 
             width: '100%', 
-            height: '50%', 
+            height: '50vh', 
             margin: '0 auto',
             marginTop: '2%',
             paddingLeft: 0,
         
             ...({ 
-              "--swiper-navigation-sides-offset": "10%",        
+              "--swiper-navigation-sides-offset": "8%",        
             } as React.CSSProperties)
             
           }} 
@@ -106,7 +105,6 @@ export default function HomePage() {
           onSwiper={(swiper) => console.log(swiper)}
 
           breakpoints={{
-            // when window width is >= 320px
             320: {
               slidesPerView: 1.5,
               spaceBetween: 10
@@ -132,13 +130,13 @@ export default function HomePage() {
           <SwiperSlide className="slide"><Intro /></SwiperSlide>              
           <SwiperSlide className="slide" ><Category /></SwiperSlide>
           <SwiperSlide className="slide">< Location /></SwiperSlide>
-          <SwiperSlide className="slide">< Media /></SwiperSlide>
+          <SwiperSlide className="slide"><Media theme={theme} /></SwiperSlide>
           <SwiperSlide className="slide">< Launch /></SwiperSlide>
           <SwiperSlide className="slide">< Goals /></SwiperSlide>
           <SwiperSlide className="slide">< Story /></SwiperSlide>
           <SwiperSlide className="slide">< Faq /></SwiperSlide>
-          <SwiperSlide className="slide">< ProjectInfo /></SwiperSlide>
-          <SwiperSlide className="slide">< TeamInfo /></SwiperSlide>
+          <SwiperSlide className="slide">< ProjectInfo theme={theme} /></SwiperSlide>
+          <SwiperSlide className="slide">< TeamInfo theme={theme} /></SwiperSlide>
           </ProjectDataProvider>
           
         </Swiper>

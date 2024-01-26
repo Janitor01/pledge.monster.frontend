@@ -1,10 +1,25 @@
-import { FC } from 'react';
+'use client'
+
+import { FC, useState, useEffect } from 'react';
 
 type HomePageTitleProps = {
   activeSlide: number;
 };
 
 export const HomePageTitle: FC<HomePageTitleProps> = ({ activeSlide }) => {
+  const [opacity, setOpacity] = useState(0);
+
+  useEffect(() => {
+    // Immediately set opacity to 0 when activeSlide changes
+    setOpacity(0);
+
+    // Wait for a very brief moment before fading in
+    const timer = setTimeout(() => {
+      setOpacity(1);
+    }, 10); // small delay for the fade-in effect
+
+    return () => clearTimeout(timer);
+  }, [activeSlide]);
 
   let content;
   switch (activeSlide) {
@@ -135,8 +150,8 @@ export const HomePageTitle: FC<HomePageTitleProps> = ({ activeSlide }) => {
 
   return (
     <>
-      <div className="flex items-center text-center font-mono">
-        <div className="container flex flex-col justify-center items-center text-center font-mono overflow-hidden content-container">
+       <div className="flex items-center text-center font-mono">
+        <div className="container flex flex-col justify-center items-center text-center font-mono overflow-hidden content-container" style={{ transition: 'opacity 0.5s ease-in-out', opacity: opacity }}>
           {content}
         </div>
       </div>

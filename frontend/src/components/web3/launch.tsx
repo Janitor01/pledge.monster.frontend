@@ -1,60 +1,92 @@
-'use client'
-import React, { FC } from 'react';
+'use client';
+import React, { FC, useState, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Card, CardContent } from '@/components/ui/card';
 import { useProjectData } from '../../app/projectdatacontext';
 import { cn } from "@/utils/cn";
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 
 type LaunchFormData = {
-    title: string;
-    elevator_pitch: string;
-    // ...other fields as needed
+    launch_date_time: string;
+    end_date_time: string;
 };
 
 export const Launch: FC = () => {
-    const methods = useForm<LaunchFormData>();
+    const methods = useForm<LaunchFormData>({
+        defaultValues: {
+            launch_date_time: '',
+            end_date_time: ''
+        }
+    });
     const { projectData, setProjectData } = useProjectData();
+    const [durationMessage, setDurationMessage] = useState('');
+
+    // Get today's date in the correct format for the input
+    const today = new Date().toISOString().slice(0, 16);
+
+    // Watch for changes in launch_date_time to update minEndDate
+    useEffect(() => {
+        const subscription = methods.watch((value, { name }) => {
+            if (name === 'launch_date_time' && value.launch_date_time) {
+                // Set minimum end date to the selected launch date
+                methods.setValue('end_date_time', value.launch_date_time);
+            }
+        });
+        return () => subscription.unsubscribe();
+    }, [methods.watch]);
+
+    // Calculate duration
+    useEffect(() => {
+        const subscription = methods.watch((value) => {
+            if (value.launch_date_time && value.end_date_time) {
+                const launchDate = new Date(value.launch_date_time);
+                const endDate = new Date(value.end_date_time);
+                const diffTime = Math.abs(endDate.getTime() - launchDate.getTime());
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                const diffHours = Math.floor((diffTime / (1000 * 60 * 60)) % 24);
+                setDurationMessage(`${diffDays} days and ${diffHours} hours`);
+            }
+        });
+        return () => subscription.unsubscribe();
+    }, [methods.watch]);
 
     const onSubmit = (data: LaunchFormData) => {
         console.log(data);
         setProjectData({ ...projectData, ...data });
     };
 
-     // Adjusted input style for full width
-     const inputClassName = "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
+    const inputClassName = "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
 
-     return (
-         <FormProvider {...methods}>
-             <Card className="card-component">
-                 <CardContent className="pb-3 pt-6">
-                     <form onSubmit={methods.handleSubmit(onSubmit)} className="flex flex-col gap-2">
-                         <div className={cn("space-y-2 w-full")}>
-                            <label htmlFor="title" className={cn(methods.formState.errors.title && "text-destructive", "text-base")}>
-                                Project Title
-                            </label>
+    return (
+        <FormProvider {...methods}>
+            <Card className="card-component">
+                <CardContent className="pb-3 pt-6">
+                    <form onSubmit={methods.handleSubmit(onSubmit)} className="flex flex-col gap-2">
+                        <div className={cn("space-y-2 w-full")}>
+                            <label htmlFor="launch_date_time" className="text-base">Launch Date and Time</label>
                             <input 
-                              {...methods.register('title')} 
-                              type="text" 
-                              id="title" 
-                              className={inputClassName} 
+                                {...methods.register('launch_date_time')} 
+                                type="datetime-local" 
+                                id="launch_date_time" 
+                                className={inputClassName} 
+                                min={today}
                             />
-                            {/* Error messages and descriptions as before */}
                         </div>
-                        <div className={cn("space-y-2")}>
-                            <label htmlFor="elevator_pitch" className={cn(methods.formState.errors.elevator_pitch && "text-destructive", "text-base")}>
-                                Elevator Pitch
-                            </label>
+                        <div className={cn("space-y-2 w-full")}>
+                            <label htmlFor="end_date_time" className="text-base">End Date and Time</label>
                             <input 
-                              {...methods.register('elevator_pitch')} 
-                              type="text" 
-                              id="elevator_pitch" 
-                              className={inputClassName} 
+                                {...methods.register('end_date_time')} 
+                                type="datetime-local" 
+                                id="end_date_time" 
+                                className={inputClassName} 
+                                min={methods.getValues('launch_date_time') || today}
                             />
-                            {/* Error messages and descriptions as before */}
+                        </div>
+                        <div className="text-center">
+                            {durationMessage && <p>Campaign Duration: {durationMessage}</p>}
                         </div>
                         <Button>
-                        <input type="submit" value="Submit" className={cn("submit-button-style")}/>
+                            <input type="submit" value="Submit" className={cn("submit-button-style")}/>
                         </Button>
                     </form>
                 </CardContent>
@@ -64,3 +96,4 @@ export const Launch: FC = () => {
 };
 
 export default Launch;
+``
