@@ -1,8 +1,8 @@
 'use client'
 
-import React, { FC, useState, useRef, useEffect } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 
-import { useForm, FormProvider, useFieldArray } from 'react-hook-form'
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -20,7 +20,10 @@ type FaqFormData = {
   faqs: FAQ[]
 }
 
-export const Faq: FC = () => {
+export const Faq: FC = ({ faqContent, setFaqContent, validateNextPageEnabled }) => {
+  useEffect(() => {
+    validateNextPageEnabled()
+  }, [faqContent])
   const methods = useForm<FaqFormData>({
     defaultValues: {
       faqs: [],
@@ -38,10 +41,14 @@ export const Faq: FC = () => {
       const { index } = editingFaq
       // Update the existing FAQ
       methods.setValue(`faqs.${index}`, faq)
+      const faqs = [...faqContent.faqs]
+      faqs[index] = faq
+      setFaqContent({ ...faqContent, faqs, allSet: true })
       setEditingFaq(null) // Clear the editing state
     } else {
       // Add a new FAQ
       append(faq)
+      setFaqContent({ ...faqContent, faqs: faqContent.faqs.concat(faq), allSet: true })
     }
     setIsModalOpen(false)
   }
@@ -87,7 +94,12 @@ export const Faq: FC = () => {
                     type="button"
                     style={{ background: '#008195', color: 'white' }}
                     className="text-destructive-400 px-3"
-                    onClick={() => remove(index)}
+                    onClick={() => {
+                      remove(index)
+                      let faqs = [...faqContent.faqs]
+                      faqs = faqs.filter((el, currentIndex) => currentIndex != index)
+                      setFaqContent({ ...faqContent, faqs, allSet: faqs.length > 0 })
+                    }}
                   >
                     Remove
                   </Button>

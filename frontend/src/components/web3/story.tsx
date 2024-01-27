@@ -1,8 +1,8 @@
 'use client'
 
-import React, { FC, useRef, useEffect } from 'react'
+import { FC, useEffect, useRef } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -15,7 +15,11 @@ type StoryFormData = {
   risks_and_challenges: string
 }
 
-export const Story: FC = () => {
+export const Story: FC = ({ storyContent, setStoryContent, validateNextPageEnabled }) => {
+  useEffect(() => {
+    validateNextPageEnabled()
+  }, [storyContent])
+
   const methods = useForm<StoryFormData>()
   const { projectData, setProjectData } = useProjectData()
   const storyRef = useRef<HTMLTextAreaElement>(null)
@@ -52,7 +56,14 @@ export const Story: FC = () => {
                 id="story"
                 className={textareaClassName}
                 ref={storyRef}
-                onChange={() => adjustTextareaHeight(storyRef)}
+                onChange={(event) => {
+                  adjustTextareaHeight(storyRef)
+                  setStoryContent({
+                    ...storyContent,
+                    allSet: !!event.target.value && !!storyContent.risks,
+                    story: event.target.value,
+                  })
+                }}
               />
             </div>
             <div className={cn('w-full space-y-2')}>
@@ -64,7 +75,14 @@ export const Story: FC = () => {
                 id="risks_and_challenges"
                 className={textareaClassName}
                 ref={risksRef}
-                onChange={() => adjustTextareaHeight(risksRef)}
+                onChange={(event) => {
+                  adjustTextareaHeight(risksRef)
+                  setStoryContent({
+                    ...storyContent,
+                    allSet: !!event.target.value && !!storyContent.story,
+                    risk: event.target.value,
+                  })
+                }}
               />
             </div>
             <Button>

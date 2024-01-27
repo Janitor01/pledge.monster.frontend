@@ -1,8 +1,8 @@
 'use client'
 
-import React, { FC, useState, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -15,7 +15,14 @@ type LaunchFormData = {
   end_date_time: string
 }
 
-export const Launch: FC = () => {
+export const Launch: FC = ({
+  launchTimeContent,
+  setLaunchTimeContent,
+  validateNextPageEnabled,
+}) => {
+  useEffect(() => {
+    validateNextPageEnabled()
+  }, [launchTimeContent])
   const methods = useForm<LaunchFormData>({
     defaultValues: {
       launch_date_time: '',
@@ -77,6 +84,13 @@ export const Launch: FC = () => {
                 id="launch_date_time"
                 className={inputClassName}
                 min={today}
+                onChange={(event) => {
+                  setLaunchTimeContent({
+                    ...launchTimeContent,
+                    launchDate: event.target.value,
+                    allSet: !!event.target.value && !!launchTimeContent.endDate,
+                  })
+                }}
               />
             </div>
             <div className={cn('w-full space-y-2')}>
@@ -89,6 +103,13 @@ export const Launch: FC = () => {
                 id="end_date_time"
                 className={inputClassName}
                 min={methods.getValues('launch_date_time') || today}
+                onChange={(event) => {
+                  setLaunchTimeContent({
+                    ...launchTimeContent,
+                    endDate: event.target.value,
+                    allSet: !!event.target.value && !!launchTimeContent.launchDate,
+                  })
+                }}
               />
             </div>
             <div className="text-center">

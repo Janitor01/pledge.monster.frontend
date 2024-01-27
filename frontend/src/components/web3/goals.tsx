@@ -1,8 +1,8 @@
 'use client'
 
-import React, { FC, useState, useEffect, useRef } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 
-import { useForm, FormProvider, useFieldArray } from 'react-hook-form'
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -21,7 +21,11 @@ type GoalsFormData = {
   reward_tiers: RewardTier[]
 }
 
-export const Goals: FC = () => {
+export const Goals: FC = ({ goalContent, setGoalContent, validateNextPageEnabled }) => {
+  useEffect(() => {
+    validateNextPageEnabled()
+  }, [goalContent])
+
   const methods = useForm<GoalsFormData>({
     defaultValues: {
       funding_goal: 0,
@@ -99,10 +103,17 @@ export const Goals: FC = () => {
                   Funding Goal
                 </label>
                 <input
-                  {...methods.register('funding_goal')}
                   type="number"
                   id="funding_goal"
                   className={inputClassName}
+                  onChange={(event) => {
+                    console.log(event.target.value)
+                    setGoalContent({
+                      ...goalContent,
+                      amount: event.target.value,
+                      allSet: !!event.target.value,
+                    })
+                  }}
                 />
               </div>
 

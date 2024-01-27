@@ -12,7 +12,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 import './globals.css'
-import Projects from './pages/projects/page'
+import Projects from './pages/proposals/page'
 
 export default function HomePage() {
   const [theme, setTheme] = useState('light')

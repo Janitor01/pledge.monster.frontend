@@ -1,9 +1,9 @@
 'use client'
 
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import countries from 'i18n-iso-countries'
-import { useForm, FormProvider } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -15,7 +15,10 @@ type LocationFormData = {
   location: string
 }
 
-export const Location: FC = () => {
+export const Location: FC = ({ countryContent, setCountryContent, validateNextPageEnabled }) => {
+  useEffect(() => {
+    validateNextPageEnabled()
+  }, [countryContent])
   const methods = useForm<LocationFormData>({
     defaultValues: { location: '' },
   })
@@ -52,7 +55,18 @@ export const Location: FC = () => {
                 Country
               </label>
               {countryList.length > 0 && (
-                <select {...methods.register('location')} id="country" className={inputClassName}>
+                <select
+                  {...methods.register('location')}
+                  id="country"
+                  className={inputClassName}
+                  onChange={(event) => {
+                    setCountryContent({
+                      ...countryContent,
+                      country: event.target.value,
+                      allSet: !!event.target.value,
+                    })
+                  }}
+                >
                   {countryList.map(({ code, name }) => (
                     <option key={code} value={code}>
                       {name}

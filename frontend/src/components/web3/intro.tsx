@@ -1,8 +1,8 @@
 'use client'
 
-import React, { FC } from 'react'
+import { FC, useEffect } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -16,14 +16,26 @@ type IntroFormData = {
   // ...other fields as needed
 }
 
-export const Intro: FC = () => {
+export const Intro: FC = ({
+  titleContent,
+  setTitleContent,
+  validateNextPageEnabled,
+  swiper,
+  updateSwiper,
+}) => {
   const methods = useForm<IntroFormData>()
   const { projectData, setProjectData } = useProjectData()
-
+  updateSwiper()
   const onSubmit = (data: IntroFormData) => {
     console.log(data)
     setProjectData({ ...projectData, ...data })
+    console.log({ swiper })
+    swiper.slideNext()
   }
+
+  useEffect(() => {
+    validateNextPageEnabled()
+  }, [titleContent])
 
   // Adjusted input style for full width
   const inputClassName =
@@ -46,6 +58,16 @@ export const Intro: FC = () => {
                 type="text"
                 id="title"
                 className={inputClassName}
+                value={titleContent.title}
+                onChange={(event) => {
+                  setTitleContent({
+                    ...titleContent,
+                    title: event.target.value,
+                    allSet: !!event.target.value && !!titleContent.elevatorPitch,
+                  })
+
+                  validateNextPageEnabled()
+                }}
               />
               {/* Error messages and descriptions as before */}
             </div>
@@ -63,7 +85,18 @@ export const Intro: FC = () => {
                 {...methods.register('elevator_pitch')}
                 type="text"
                 id="elevator_pitch"
+                value={titleContent.elevatorPitch}
                 className={inputClassName}
+                onChange={(event) => {
+                  const text = event.target.value
+                  const allSet = !!titleContent.title && !!text
+                  console.log(allSet)
+                  setTitleContent({
+                    ...titleContent,
+                    elevatorPitch: event.target.value,
+                    allSet,
+                  })
+                }}
               />
               {/* Error messages and descriptions as before */}
             </div>

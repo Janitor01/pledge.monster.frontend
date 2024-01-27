@@ -1,8 +1,8 @@
 'use client'
 
-import React, { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import categories from 'src/config/categories.json'
 
 import { Button } from '@/components/ui/button'
@@ -16,10 +16,14 @@ type CategoryFormData = {
   subcategory: string
 }
 
-export const Category: FC = () => {
+export const Category: FC = ({ categoryContent, setCategoryContent, validateNextPageEnabled }) => {
   const methods = useForm<CategoryFormData>({
     defaultValues: { category: '', subcategory: '' }, // Set default values for category and subcategory
   })
+
+  useEffect(() => {
+    validateNextPageEnabled()
+  }, [categoryContent])
   const { projectData, setProjectData } = useProjectData()
   const [selectedCategory, setSelectedCategory] = useState('')
 
@@ -40,7 +44,18 @@ export const Category: FC = () => {
               <label htmlFor="category" className="text-base">
                 Category
               </label>
-              <select {...methods.register('category')} id="category" className={inputClassName}>
+              <select
+                {...methods.register('category')}
+                id="category"
+                className={inputClassName}
+                onChange={(event) => {
+                  setCategoryContent({
+                    ...categoryContent,
+                    category: event.target.value,
+                    allSet: !!event.target.value && !!categoryContent.subCategory,
+                  })
+                }}
+              >
                 {categories.map((category) => (
                   <option key={category} value={category}>
                     {category}
@@ -56,6 +71,14 @@ export const Category: FC = () => {
                 {...methods.register('subcategory')}
                 id="subcategory"
                 className={inputClassName}
+                onChange={(event) => {
+                  console.log(event)
+                  setCategoryContent({
+                    ...categoryContent,
+                    subCategory: event.target.value,
+                    allSet: !!event.target.value && !!categoryContent.category,
+                  })
+                }}
               >
                 {categories.map((category) => (
                   <option key={category} value={category}>

@@ -1,11 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import React, { FC, useState, useRef, useEffect } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 
-import { useForm, FormProvider, useFieldArray } from 'react-hook-form'
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form'
 import 'swiper/css'
-import { Navigation, Pagination, Scrollbar, A11y, EffectCoverflow } from 'swiper/modules'
+import { A11y, Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { Button } from '@/components/ui/button'
@@ -27,7 +27,16 @@ type TeamInfoFormData = {
 const inputClassName =
   'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
 
-export const TeamInfo: FC<{ theme: string }> = ({ theme }) => {
+export const TeamInfo: FC<{ theme: string }> = ({
+  theme,
+  teamContent,
+  setTeamContent,
+  validateNextPageEnabled,
+}) => {
+  useEffect(() => {
+    console.log(teamContent)
+    validateNextPageEnabled()
+  }, [teamContent])
   const methods = useForm<TeamInfoFormData>({
     defaultValues: {
       team_members: [],
@@ -43,6 +52,7 @@ export const TeamInfo: FC<{ theme: string }> = ({ theme }) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null)
   const handleAddTeamMember = (member: TeamMember) => {
     append(member)
+    setTeamContent({ ...teamContent, team: [...teamContent.team, member], allSet: true })
     setIsModalOpen(false)
   }
 
@@ -113,7 +123,15 @@ export const TeamInfo: FC<{ theme: string }> = ({ theme }) => {
                         <br />
                         {field.role}
                       </div>
-                      <Button type="button" onClick={() => remove(index)}>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          remove(index)
+                          let team = [...teamContent.team]
+                          team = team.filter((el, currentIndex) => currentIndex != index)
+                          setTeamContent({ ...teamContent, team, allSet: team.length > 0 })
+                        }}
+                      >
                         Remove
                       </Button>
                     </div>

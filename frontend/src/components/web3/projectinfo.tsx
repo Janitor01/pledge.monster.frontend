@@ -1,9 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import React, { FC, useState, useRef, useEffect } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 
-import { useForm, FormProvider } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -21,7 +21,15 @@ const inputClassName =
   'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
 const textareaClassName = `${inputClassName} h-40`
 
-export const ProjectInfo: FC<{ theme: string }> = ({ theme }) => {
+export const ProjectInfo: FC<{ theme: string }> = ({
+  theme,
+  projectInfoContent,
+  setProjectInfoContent,
+  validateNextPageEnabled,
+}) => {
+  useEffect(() => {
+    validateNextPageEnabled()
+  }, [projectInfoContent])
   const { projectData, setProjectData } = useProjectData()
   const methods = useForm<ProjectInfoFormData>()
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
@@ -73,7 +81,7 @@ export const ProjectInfo: FC<{ theme: string }> = ({ theme }) => {
     const existingLinks = methods.getValues('social_media_links') || []
     const updatedLinks = [...existingLinks, url]
     methods.setValue('social_media_links', updatedLinks) // Update the form state
-
+    setProjectInfoContent({ ...projectInfoContent, [platform]: url, allSet: true })
     setShowSocialMediaForm(false)
   }
 
@@ -147,17 +155,41 @@ export const ProjectInfo: FC<{ theme: string }> = ({ theme }) => {
                   {...methods.register('info')}
                   placeholder="Project Information"
                   className={inputClassName}
+                  value={projectInfoContent.projectInfo}
+                  onChange={(event) => {
+                    setProjectInfoContent({
+                      ...projectInfoContent,
+                      projectInfo: event.target.value,
+                      allSet: true,
+                    })
+                  }}
                 />
               )}
               <input
                 {...methods.register('project_image_url')}
                 placeholder="Project Image URL"
                 className={inputClassName}
+                value={projectInfoContent.projectImageUrl}
+                onChange={(event) => {
+                  setProjectInfoContent({
+                    ...projectInfoContent,
+                    projectImageUrl: event.target.value,
+                    allSet: true,
+                  })
+                }}
               />
               <input
                 {...methods.register('project_video_url')}
                 placeholder="Project Video URL"
                 className={inputClassName}
+                value={projectInfoContent.projectVideoUrl}
+                onChange={(event) => {
+                  setProjectInfoContent({
+                    ...projectInfoContent,
+                    projectVideoUrl: event.target.value,
+                    allSet: true,
+                  })
+                }}
               />
               <h2 className="mt-4 text-center font-mono text-gray-400">Social Media</h2>
               <div

@@ -1,10 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import React, { FC, useState, useRef, useEffect } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 
 import eye from 'public/icons/eye.svg'
-import { useForm, FormProvider } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -17,12 +17,21 @@ type MediaFormData = {
   video_url: string
 }
 
-export const Media: FC<{ theme: string }> = ({ theme }) => {
+export const Media: FC<{ theme: string }> = ({
+  theme,
+  mediaContent,
+  setMediaContent,
+  validateNextPageEnabled,
+}) => {
   const methods = useForm<MediaFormData>()
   const { projectData, setProjectData } = useProjectData()
   const [isHovering, setIsHovering] = useState(false)
   const [modalContent, setModalContent] = useState<JSX.Element | null>(null)
   const modalRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    validateNextPageEnabled()
+  }, [mediaContent])
 
   useEffect(() => {
     setProjectData({
@@ -99,6 +108,14 @@ export const Media: FC<{ theme: string }> = ({ theme }) => {
                     type="text"
                     id="image_url"
                     className={inputClassName}
+                    value={mediaContent.imageUrl}
+                    onChange={(event) => {
+                      setMediaContent({
+                        ...mediaContent,
+                        imageUrl: event.target.value,
+                        allSet: !!event.target.value && !!mediaContent.videoUrl,
+                      })
+                    }}
                   />
                   <button
                     type="button"
@@ -125,6 +142,14 @@ export const Media: FC<{ theme: string }> = ({ theme }) => {
                     type="text"
                     id="video_url"
                     className={inputClassName}
+                    value={mediaContent.videoUrl}
+                    onChange={(event) => {
+                      setMediaContent({
+                        ...mediaContent,
+                        videoUrl: event.target.value,
+                        allSet: !!event.target.value && !!mediaContent.imageUrl,
+                      })
+                    }}
                   />
                   <button
                     type="button"
