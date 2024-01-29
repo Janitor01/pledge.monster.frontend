@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { FC, useEffect, useState, useCallback, AnchorHTMLAttributes } from 'react'
+import { AnchorHTMLAttributes, FC, useCallback, useEffect, useState } from 'react'
 
 import { ContractIds } from '@/deployments/deployments'
 import { contractQuery, useInkathon, useRegisteredContract } from '@scio-labs/use-inkathon'
@@ -21,7 +21,7 @@ interface StyledIconLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 
 export const PresaleInfo: FC = () => {
   const { api } = useInkathon()
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.bugbite)
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.pledge)
   const [tokensSold, setTokensSold] = useState<string>('0')
   const [totalPresaleTokens, setTotalPresaleTokens] = useState<string>('0')
   const [progressWidth, setProgressWidth] = useState(0)

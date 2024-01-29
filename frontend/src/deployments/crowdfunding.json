@@ -1,0 +1,1102 @@
+{
+  "source": {
+    "hash": "0x9c3f4e0ed8b5554bae91307de2f72d2a5dd19fa227638c99e1d0491e27d7db09",
+    "language": "ink! 4.3.0",
+    "compiler": "rustc 1.77.0-nightly",
+    "build_info": {
+      "build_mode": "Debug",
+      "cargo_contract_version": "3.2.0",
+      "rust_toolchain": "nightly-x86_64-apple-darwin",
+      "wasm_opt_settings": {
+        "keep_debug_symbols": false,
+        "optimization_passes": "Z"
+      }
+    }
+  },
+  "contract": {
+    "name": "crowdfunding",
+    "version": "0.1.0",
+    "authors": ["[your_name] <[your_email]>"]
+  },
+  "spec": {
+    "constructors": [
+      {
+        "args": [
+          {
+            "label": "owner",
+            "type": {
+              "displayName": ["AccountId"],
+              "type": 0
+            }
+          },
+          {
+            "label": "project",
+            "type": {
+              "displayName": ["Project"],
+              "type": 14
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "new",
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink_primitives", "ConstructorResult"],
+          "type": 16
+        },
+        "selector": "0x9bae9d5e"
+      }
+    ],
+    "docs": [],
+    "environment": {
+      "accountId": {
+        "displayName": ["AccountId"],
+        "type": 0
+      },
+      "balance": {
+        "displayName": ["Balance"],
+        "type": 6
+      },
+      "blockNumber": {
+        "displayName": ["BlockNumber"],
+        "type": 26
+      },
+      "chainExtension": {
+        "displayName": ["ChainExtension"],
+        "type": 27
+      },
+      "hash": {
+        "displayName": ["Hash"],
+        "type": 25
+      },
+      "maxEventTopics": 4,
+      "timestamp": {
+        "displayName": ["Timestamp"],
+        "type": 4
+      }
+    },
+    "events": [],
+    "lang_error": {
+      "displayName": ["ink", "LangError"],
+      "type": 18
+    },
+    "messages": [
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_owner",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 19
+        },
+        "selector": "0x07fcd0b1"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_project",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 20
+        },
+        "selector": "0x91715b09"
+      },
+      {
+        "args": [
+          {
+            "label": "new_project_details",
+            "type": {
+              "displayName": ["Project"],
+              "type": 14
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "update_project",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 21
+        },
+        "selector": "0x23231607"
+      },
+      {
+        "args": [
+          {
+            "label": "_project_id",
+            "type": {
+              "displayName": ["AccountId"],
+              "type": 0
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "fund_project",
+        "mutates": true,
+        "payable": true,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 21
+        },
+        "selector": "0xdcadad5d"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "claim_funds",
+        "mutates": true,
+        "payable": true,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 24
+        },
+        "selector": "0x081ece10"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_contract_address",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 19
+        },
+        "selector": "0x61f8c91f"
+      },
+      {
+        "args": [
+          {
+            "label": "code_hash",
+            "type": {
+              "displayName": [],
+              "type": 1
+            }
+          }
+        ],
+        "default": false,
+        "docs": [],
+        "label": "set_code",
+        "mutates": true,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 16
+        },
+        "selector": "0x694fb50f"
+      }
+    ]
+  },
+  "storage": {
+    "root": {
+      "layout": {
+        "struct": {
+          "fields": [
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 0
+                }
+              },
+              "name": "owner"
+            },
+            {
+              "layout": {
+                "struct": {
+                  "fields": [
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 3
+                        }
+                      },
+                      "name": "title"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 3
+                        }
+                      },
+                      "name": "elevator_pitch"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 3
+                        }
+                      },
+                      "name": "category"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 3
+                        }
+                      },
+                      "name": "subcategory"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 3
+                        }
+                      },
+                      "name": "location"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 3
+                        }
+                      },
+                      "name": "image_url"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 3
+                        }
+                      },
+                      "name": "video_url"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 4
+                        }
+                      },
+                      "name": "launch_date"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 4
+                        }
+                      },
+                      "name": "duration"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 5
+                        }
+                      },
+                      "name": "funding_goals"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 7
+                        }
+                      },
+                      "name": "reward_tiers"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 3
+                        }
+                      },
+                      "name": "story"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 3
+                        }
+                      },
+                      "name": "risks_and_challenges"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 9
+                        }
+                      },
+                      "name": "faqs"
+                    },
+                    {
+                      "layout": {
+                        "struct": {
+                          "fields": [
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 3
+                                }
+                              },
+                              "name": "name"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 3
+                                }
+                              },
+                              "name": "info"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 3
+                                }
+                              },
+                              "name": "image_url"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 3
+                                }
+                              },
+                              "name": "video_url"
+                            },
+                            {
+                              "layout": {
+                                "leaf": {
+                                  "key": "0x00000000",
+                                  "ty": 11
+                                }
+                              },
+                              "name": "social_media_links"
+                            }
+                          ],
+                          "name": "ProjectInfo"
+                        }
+                      },
+                      "name": "project_info"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 12
+                        }
+                      },
+                      "name": "member_info"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 0
+                        }
+                      },
+                      "name": "wallet"
+                    },
+                    {
+                      "layout": {
+                        "leaf": {
+                          "key": "0x00000000",
+                          "ty": 11
+                        }
+                      },
+                      "name": "project_urls"
+                    }
+                  ],
+                  "name": "Project"
+                }
+              },
+              "name": "project"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 0
+                }
+              },
+              "name": "deployer"
+            }
+          ],
+          "name": "DecentralizedCrowdfunding"
+        }
+      },
+      "root_key": "0x00000000"
+    }
+  },
+  "types": [
+    {
+      "id": 0,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 1,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": ["ink_primitives", "types", "AccountId"]
+      }
+    },
+    {
+      "id": 1,
+      "type": {
+        "def": {
+          "array": {
+            "len": 32,
+            "type": 2
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": {
+        "def": {
+          "primitive": "u8"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "type": {
+        "def": {
+          "primitive": "str"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "type": {
+        "def": {
+          "primitive": "u64"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 6
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "type": {
+        "def": {
+          "primitive": "u128"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 8
+          }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "amount",
+                "type": 6,
+                "typeName": "Balance"
+              },
+              {
+                "name": "description",
+                "type": 3,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": ["crowdfunding", "decentralized_crowdfunding", "RewardTier"]
+      }
+    },
+    {
+      "id": 9,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 10
+          }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "question",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "answer",
+                "type": 3,
+                "typeName": "String"
+              }
+            ]
+          }
+        },
+        "path": ["crowdfunding", "decentralized_crowdfunding", "FAQ"]
+      }
+    },
+    {
+      "id": 11,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 3
+          }
+        }
+      }
+    },
+    {
+      "id": 12,
+      "type": {
+        "def": {
+          "sequence": {
+            "type": 13
+          }
+        }
+      }
+    },
+    {
+      "id": 13,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "name",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "role",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "image_url",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "social_media_links",
+                "type": 11,
+                "typeName": "Vec<String>"
+              }
+            ]
+          }
+        },
+        "path": ["crowdfunding", "decentralized_crowdfunding", "TeamMember"]
+      }
+    },
+    {
+      "id": 14,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "title",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "elevator_pitch",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "category",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "subcategory",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "location",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "image_url",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "video_url",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "launch_date",
+                "type": 4,
+                "typeName": "u64"
+              },
+              {
+                "name": "duration",
+                "type": 4,
+                "typeName": "u64"
+              },
+              {
+                "name": "funding_goals",
+                "type": 5,
+                "typeName": "Vec<Balance>"
+              },
+              {
+                "name": "reward_tiers",
+                "type": 7,
+                "typeName": "Vec<RewardTier>"
+              },
+              {
+                "name": "story",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "risks_and_challenges",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "faqs",
+                "type": 9,
+                "typeName": "Vec<FAQ>"
+              },
+              {
+                "name": "project_info",
+                "type": 15,
+                "typeName": "ProjectInfo"
+              },
+              {
+                "name": "member_info",
+                "type": 12,
+                "typeName": "Vec<TeamMember>"
+              },
+              {
+                "name": "wallet",
+                "type": 0,
+                "typeName": "AccountId"
+              },
+              {
+                "name": "project_urls",
+                "type": 11,
+                "typeName": "Vec<String>"
+              }
+            ]
+          }
+        },
+        "path": ["crowdfunding", "decentralized_crowdfunding", "Project"]
+      }
+    },
+    {
+      "id": 15,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "name": "name",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "info",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "image_url",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "video_url",
+                "type": 3,
+                "typeName": "String"
+              },
+              {
+                "name": "social_media_links",
+                "type": 11,
+                "typeName": "Vec<String>"
+              }
+            ]
+          }
+        },
+        "path": ["crowdfunding", "decentralized_crowdfunding", "ProjectInfo"]
+      }
+    },
+    {
+      "id": 16,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 17
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 17
+          },
+          {
+            "name": "E",
+            "type": 18
+          }
+        ],
+        "path": ["Result"]
+      }
+    },
+    {
+      "id": 17,
+      "type": {
+        "def": {
+          "tuple": []
+        }
+      }
+    },
+    {
+      "id": 18,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 1,
+                "name": "CouldNotReadInput"
+              }
+            ]
+          }
+        },
+        "path": ["ink_primitives", "LangError"]
+      }
+    },
+    {
+      "id": 19,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 0
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 0
+          },
+          {
+            "name": "E",
+            "type": 18
+          }
+        ],
+        "path": ["Result"]
+      }
+    },
+    {
+      "id": 20,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 14
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 14
+          },
+          {
+            "name": "E",
+            "type": 18
+          }
+        ],
+        "path": ["Result"]
+      }
+    },
+    {
+      "id": 21,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 22
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 22
+          },
+          {
+            "name": "E",
+            "type": 18
+          }
+        ],
+        "path": ["Result"]
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 17
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 23
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 17
+          },
+          {
+            "name": "E",
+            "type": 23
+          }
+        ],
+        "path": ["Result"]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "NotOwner"
+              },
+              {
+                "index": 1,
+                "name": "ProjectNotFound"
+              },
+              {
+                "index": 2,
+                "name": "InvalidInput"
+              },
+              {
+                "index": 3,
+                "name": "FundingError"
+              }
+            ]
+          }
+        },
+        "path": ["crowdfunding", "decentralized_crowdfunding", "Error"]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 6
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 6
+          },
+          {
+            "name": "E",
+            "type": 18
+          }
+        ],
+        "path": ["Result"]
+      }
+    },
+    {
+      "id": 25,
+      "type": {
+        "def": {
+          "composite": {
+            "fields": [
+              {
+                "type": 1,
+                "typeName": "[u8; 32]"
+              }
+            ]
+          }
+        },
+        "path": ["ink_primitives", "types", "Hash"]
+      }
+    },
+    {
+      "id": 26,
+      "type": {
+        "def": {
+          "primitive": "u32"
+        }
+      }
+    },
+    {
+      "id": 27,
+      "type": {
+        "def": {
+          "variant": {}
+        },
+        "path": ["ink_env", "types", "NoChainExtension"]
+      }
+    }
+  ],
+  "version": "4"
+}

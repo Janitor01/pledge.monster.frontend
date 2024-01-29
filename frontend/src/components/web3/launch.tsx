@@ -19,6 +19,7 @@ export const Launch: FC = ({
   launchTimeContent,
   setLaunchTimeContent,
   validateNextPageEnabled,
+  swiper,
 }) => {
   useEffect(() => {
     validateNextPageEnabled()
@@ -64,6 +65,9 @@ export const Launch: FC = ({
   const onSubmit = (data: LaunchFormData) => {
     console.log(data)
     setProjectData({ ...projectData, ...data })
+    if (launchTimeContent.allSet) {
+      swiper.slideNext()
+    }
   }
 
   const inputClassName =

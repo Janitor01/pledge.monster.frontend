@@ -20,7 +20,7 @@ type FaqFormData = {
   faqs: FAQ[]
 }
 
-export const Faq: FC = ({ faqContent, setFaqContent, validateNextPageEnabled }) => {
+export const Faq: FC = ({ faqContent, setFaqContent, validateNextPageEnabled, swiper }) => {
   useEffect(() => {
     validateNextPageEnabled()
   }, [faqContent])
@@ -60,6 +60,9 @@ export const Faq: FC = ({ faqContent, setFaqContent, validateNextPageEnabled }) 
   const onSubmit = (data: FaqFormData) => {
     console.log(data)
     setProjectData({ ...projectData, ...data })
+    if (faqContent.allSet) {
+      swiper.slideNext()
+    }
   }
   const [editingFaq, setEditingFaq] = useState<{ faq: FAQ; index: number } | null>(null)
 

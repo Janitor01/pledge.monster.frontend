@@ -15,7 +15,12 @@ type LocationFormData = {
   location: string
 }
 
-export const Location: FC = ({ countryContent, setCountryContent, validateNextPageEnabled }) => {
+export const Location: FC = ({
+  countryContent,
+  setCountryContent,
+  validateNextPageEnabled,
+  swiper,
+}) => {
   useEffect(() => {
     validateNextPageEnabled()
   }, [countryContent])
@@ -40,6 +45,9 @@ export const Location: FC = ({ countryContent, setCountryContent, validateNextPa
   const onSubmit = (data: LocationFormData) => {
     console.log(data)
     setProjectData({ ...projectData, ...data })
+    if (countryContent.allSet) {
+      swiper.slideNext()
+    }
   }
 
   const inputClassName =

@@ -15,7 +15,7 @@ type StoryFormData = {
   risks_and_challenges: string
 }
 
-export const Story: FC = ({ storyContent, setStoryContent, validateNextPageEnabled }) => {
+export const Story: FC = ({ storyContent, setStoryContent, validateNextPageEnabled, swiper }) => {
   useEffect(() => {
     validateNextPageEnabled()
   }, [storyContent])
@@ -33,9 +33,10 @@ export const Story: FC = ({ storyContent, setStoryContent, validateNextPageEnabl
     }
   }
 
-  const onSubmit = (data: StoryFormData) => {
-    console.log(data)
-    setProjectData({ ...projectData, ...data })
+  const onSubmit = () => {
+    if (storyContent.allSet) {
+      swiper.slideNext()
+    }
   }
 
   const inputClassName =
@@ -46,7 +47,13 @@ export const Story: FC = ({ storyContent, setStoryContent, validateNextPageEnabl
     <FormProvider {...methods}>
       <Card className="card-component">
         <CardContent className="pb-3 pt-6">
-          <form onSubmit={methods.handleSubmit(onSubmit)} className="flex flex-col gap-2">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault()
+              onSubmit()
+            }}
+            className="flex flex-col gap-2"
+          >
             <div className={cn('w-full space-y-2')}>
               <label htmlFor="story" className="text-base">
                 Story

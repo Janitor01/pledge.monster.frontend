@@ -16,7 +16,12 @@ type CategoryFormData = {
   subcategory: string
 }
 
-export const Category: FC = ({ categoryContent, setCategoryContent, validateNextPageEnabled }) => {
+export const Category: FC = ({
+  categoryContent,
+  setCategoryContent,
+  validateNextPageEnabled,
+  swiper,
+}) => {
   const methods = useForm<CategoryFormData>({
     defaultValues: { category: '', subcategory: '' }, // Set default values for category and subcategory
   })
@@ -30,6 +35,9 @@ export const Category: FC = ({ categoryContent, setCategoryContent, validateNext
   const onSubmit = (data: CategoryFormData) => {
     console.log(data)
     setProjectData({ ...projectData, ...data })
+    if (categoryContent.allSet) {
+      swiper.slideNext()
+    }
   }
 
   const inputClassName =

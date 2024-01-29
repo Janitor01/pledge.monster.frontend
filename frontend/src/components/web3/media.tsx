@@ -22,6 +22,7 @@ export const Media: FC<{ theme: string }> = ({
   mediaContent,
   setMediaContent,
   validateNextPageEnabled,
+  swiper,
 }) => {
   const methods = useForm<MediaFormData>()
   const { projectData, setProjectData } = useProjectData()
@@ -95,7 +96,13 @@ export const Media: FC<{ theme: string }> = ({
         <Card className="card-component">
           <CardContent className="pb-3 pt-6">
             <form
-              onSubmit={methods.handleSubmit((data) => console.log(data))}
+              onSubmit={(event) => {
+                // methods.handleSubmit((data) => console.log(data))
+                event.preventDefault()
+                if (mediaContent.allSet) {
+                  swiper.slideNext()
+                }
+              }}
               className="flex flex-col gap-2"
             >
               <div className={cn('w-full space-y-2')}>
@@ -167,7 +174,16 @@ export const Media: FC<{ theme: string }> = ({
                 </div>
               </div>
               <Button className="mt-2">
-                <input type="submit" value="Submit" className={cn('submit-button-style')} />
+                <input
+                  onClick={() => {
+                    if (mediaContent.allSet) {
+                      swiper.slideNext()
+                    }
+                  }}
+                  type="submit"
+                  value="Submit"
+                  className={cn('submit-button-style')}
+                />
               </Button>
             </form>
           </CardContent>

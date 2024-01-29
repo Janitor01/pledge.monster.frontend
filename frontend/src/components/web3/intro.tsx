@@ -29,8 +29,9 @@ export const Intro: FC = ({
   const onSubmit = (data: IntroFormData) => {
     console.log(data)
     setProjectData({ ...projectData, ...data })
-    console.log({ swiper })
-    swiper.slideNext()
+    if (titleContent.allSet) {
+      swiper.slideNext()
+    }
   }
 
   useEffect(() => {

@@ -21,7 +21,7 @@ type GoalsFormData = {
   reward_tiers: RewardTier[]
 }
 
-export const Goals: FC = ({ goalContent, setGoalContent, validateNextPageEnabled }) => {
+export const Goals: FC = ({ goalContent, setGoalContent, validateNextPageEnabled, swiper }) => {
   useEffect(() => {
     validateNextPageEnabled()
   }, [goalContent])
@@ -42,6 +42,9 @@ export const Goals: FC = ({ goalContent, setGoalContent, validateNextPageEnabled
   const onSubmit = (data: GoalsFormData) => {
     console.log(data)
     setProjectData({ ...projectData, ...data })
+    if (goalContent.allSet) {
+      swiper.slideNext()
+    }
   }
   const [editingTierIndex, setEditingTierIndex] = useState<number | null>(null)
 

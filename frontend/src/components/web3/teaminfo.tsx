@@ -32,6 +32,7 @@ export const TeamInfo: FC<{ theme: string }> = ({
   teamContent,
   setTeamContent,
   validateNextPageEnabled,
+  handleSubmitButton,
 }) => {
   useEffect(() => {
     console.log(teamContent)
@@ -63,6 +64,7 @@ export const TeamInfo: FC<{ theme: string }> = ({
   const onSubmit = (data: TeamInfoFormData) => {
     console.log(data)
     setProjectData({ ...projectData, ...data })
+    handleSubmitButton()
   }
 
   const socialMediaPlatforms = [

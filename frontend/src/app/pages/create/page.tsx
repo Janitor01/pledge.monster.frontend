@@ -1,7 +1,18 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
+import { ContractIds } from '@/deployments/deployments'
+import { ApiPromise } from '@polkadot/api'
+import { ContractPromise } from '@polkadot/api-contract'
+import {
+  contractQuery,
+  decodeOutput,
+  useInkathon,
+  useRegisteredContract,
+} from '@scio-labs/use-inkathon'
+import toast from 'react-hot-toast'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
@@ -20,11 +31,17 @@ import { Media } from '@/components/web3/media'
 import { ProjectInfo } from '@/components/web3/projectinfo'
 import { Story } from '@/components/web3/story'
 import { TeamInfo } from '@/components/web3/teaminfo'
+import { contractTxWithToast } from '@/utils/contract-tx-with-toast'
 
 import '../../globals.css'
 import { ProjectDataProvider } from '../../projectdatacontext'
 
 export default function CreatePage() {
+  const { api, activeAccount, activeSigner } = useInkathon()
+  const router = useRouter()
+
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.pledge)
+
   const [theme, setTheme] = useState('light')
   const [activeSlide, setActiveSlide] = useState(0)
   const [nextPageEnabled, setPageEnabled] = useState(false)
@@ -68,12 +85,13 @@ export default function CreatePage() {
     discord: '',
     github: '',
   })
+
   const [teamContent, setTeamContent] = useState({
     allSet: false,
     team: [],
   })
   const [swiper, setSwiper] = useState({})
-
+  const [isTransactionLoading, setTransactionLoading] = useState(false)
   const useUpdateSwiper = () => {
     setSwiper(useSwiper())
   }
@@ -97,11 +115,115 @@ export default function CreatePage() {
       setPageEnabled(true)
     }
   }
+
+  const handleSubmitButton = async () => {
+    if (isTransactionLoading) {
+      return
+    }
+
+    if (!activeAccount || !contract || !activeSigner || !api) {
+      toast.error('Wallet not connected. Try again…')
+      return
+    }
+    setTransactionLoading(true)
+    const TeamMember = {
+      name: 'String',
+      role: 'String',
+      image_url: 'String',
+      social_media_links: ['Vec<String>'],
+    }
+    const ProjectInfo = {
+      name: titleContent.title,
+      info: projectInfoContent.projectInfo,
+      image_url: projectInfoContent.projectImageuRL,
+      video_url: projectInfoContent.projectVideoUrl,
+      social_media_links: [
+        projectInfoContent.twitter,
+        projectInfoContent.telegram,
+        projectInfoContent.discord,
+        projectInfoContent.github,
+      ],
+    }
+    const FAQ = {
+      question: 'String',
+      answer: 'String',
+    }
+
+    const RewardTier = {
+      amount: 1,
+      description: 'String',
+    }
+    const project = {
+      title: titleContent.title,
+      elevator_pitch: titleContent.elevatorPitch,
+      category: categoryContent.category,
+      subcategory: categoryContent.subCategory,
+      location: countryContent.country,
+      image_url: mediaContent.imageUrl,
+      video_url: mediaContent.videoUrl,
+      launch_date: 20, // Unix timestamp
+      duration: 20, // in seconds
+      funding_goals: [0],
+      reward_tiers: [RewardTier],
+      story: storyContent.story,
+      risks_and_challenges: storyContent.risks,
+      faqs: faqContent.faqs,
+      project_info: ProjectInfo,
+      member_info: teamContent.team,
+      wallet: activeAccount.address,
+      project_urls: [
+        projectInfoContent.twitter,
+        projectInfoContent.telegram,
+        projectInfoContent.discord,
+        projectInfoContent.github,
+      ],
+    }
+    try {
+      const userLengthResult = await contractQuery(
+        api as ApiPromise,
+        '',
+        contract as ContractPromise,
+        'get_length_of_user',
+        undefined,
+        [activeAccount.address],
+      )
+      console.log({ launchTimeContent })
+
+      const {
+        output: userLength,
+        isError: isE,
+        decodedOutput: decO,
+      } = decodeOutput(userLengthResult, contract as ContractPromise, 'get_length_of_user')
+      console.log({ userLength })
+      const result = await contractTxWithToast(
+        api,
+        activeAccount.address,
+        contract,
+        'deploy_crowdfund',
+        {},
+        [project, userLength],
+      )
+      console.log({ result })
+      const { output, isError, decodedOutput } = decodeOutput(
+        result.dryResult,
+        contract as ContractPromise,
+        'deploy_crowdfund',
+      )
+      console.log({ output })
+    } catch (e) {
+      setTransactionLoading(false)
+      console.error(e)
+    } finally {
+      setTransactionLoading(false)
+      console.log('Done')
+      router.back()
+    }
+  }
   return (
     <>
       <div className="container  flex grow flex-col items-center justify-center">
         <HomePageTitle activeSlide={activeSlide} />
-
+        {isTransactionLoading && <span className="loading loading-spinner loading-lg"></span>}
         <Swiper
           className="swiper-3d swiper-container"
           modules={[Navigation, Pagination, A11y, EffectCoverflow]}
@@ -168,6 +290,8 @@ export default function CreatePage() {
                 categoryContent={categoryContent}
                 setCategoryContent={setCategoryContent}
                 validateNextPageEnabled={validateNextPageEnabled}
+                swiper={swiper}
+                updateSwiper={useUpdateSwiper}
               />
             </SwiperSlide>
             <SwiperSlide className="slide">
@@ -175,6 +299,8 @@ export default function CreatePage() {
                 countryContent={countryContent}
                 setCountryContent={setCountryContent}
                 validateNextPageEnabled={validateNextPageEnabled}
+                swiper={swiper}
+                updateSwiper={useUpdateSwiper}
               />
             </SwiperSlide>
             <SwiperSlide className="slide">
@@ -182,6 +308,8 @@ export default function CreatePage() {
                 mediaContent={mediaContent}
                 setMediaContent={setMediaContent}
                 validateNextPageEnabled={validateNextPageEnabled}
+                swiper={swiper}
+                updateSwiper={useUpdateSwiper}
                 theme={theme}
               />
             </SwiperSlide>
@@ -190,6 +318,8 @@ export default function CreatePage() {
                 launchTimeContent={launchTimeContent}
                 setLaunchTimeContent={setLaunchTimeContent}
                 validateNextPageEnabled={validateNextPageEnabled}
+                swiper={swiper}
+                updateSwiper={useUpdateSwiper}
               />
             </SwiperSlide>
             <SwiperSlide className="slide">
@@ -197,6 +327,8 @@ export default function CreatePage() {
                 goalContent={goalContent}
                 setGoalContent={setGoalContent}
                 validateNextPageEnabled={validateNextPageEnabled}
+                swiper={swiper}
+                updateSwiper={useUpdateSwiper}
               />
             </SwiperSlide>
             <SwiperSlide className="slide">
@@ -204,6 +336,8 @@ export default function CreatePage() {
                 storyContent={storyContent}
                 setStoryContent={setStoryContent}
                 validateNextPageEnabled={validateNextPageEnabled}
+                swiper={swiper}
+                updateSwiper={useUpdateSwiper}
               />
             </SwiperSlide>
             <SwiperSlide className="slide">
@@ -211,6 +345,8 @@ export default function CreatePage() {
                 faqContent={faqContent}
                 setFaqContent={setFaqContent}
                 validateNextPageEnabled={validateNextPageEnabled}
+                swiper={swiper}
+                updateSwiper={useUpdateSwiper}
               />
             </SwiperSlide>
             <SwiperSlide className="slide">
@@ -219,6 +355,8 @@ export default function CreatePage() {
                 projectInfoContent={projectInfoContent}
                 setProjectInfoContent={setProjectInfoContent}
                 validateNextPageEnabled={validateNextPageEnabled}
+                swiper={swiper}
+                updateSwiper={useUpdateSwiper}
               />
             </SwiperSlide>
             <SwiperSlide className="slide">
@@ -227,6 +365,9 @@ export default function CreatePage() {
                 teamContent={teamContent}
                 setTeamContent={setTeamContent}
                 validateNextPageEnabled={validateNextPageEnabled}
+                handleSubmitButton={handleSubmitButton}
+                swiper={swiper}
+                updateSwiper={useUpdateSwiper}
               />
             </SwiperSlide>
           </ProjectDataProvider>

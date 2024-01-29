@@ -26,6 +26,7 @@ export const ProjectInfo: FC<{ theme: string }> = ({
   projectInfoContent,
   setProjectInfoContent,
   validateNextPageEnabled,
+  swiper,
 }) => {
   useEffect(() => {
     validateNextPageEnabled()
@@ -146,7 +147,16 @@ export const ProjectInfo: FC<{ theme: string }> = ({
         <Card className="card-component">
           <CardContent className="pb-3 pt-6">
             <h2>{projectName}</h2> {/* NOT DISPLAYING THE NAME YET */}
-            <form onSubmit={methods.handleSubmit(onSubmit)} className="flex flex-col gap-2">
+            <form
+              onSubmit={(event) => {
+                // methods.handleSubmit(onSubmit)
+                event.preventDefault()
+                if (projectInfoContent.allSet) {
+                  swiper.slideNext()
+                }
+              }}
+              className="flex flex-col gap-2"
+            >
               <Button type="button" onClick={() => setShowProjectInfoForm(true)}>
                 Edit Project Information
               </Button>

@@ -1,14 +1,9 @@
 'use client'
 
-import { FC, useEffect, useState, useCallback } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 
 import { ContractIds } from '@/deployments/deployments'
-import {
-  contractQuery,
-  decodeOutput,
-  useInkathon,
-  useRegisteredContract,
-} from '@scio-labs/use-inkathon'
+import { contractQuery, useInkathon, useRegisteredContract } from '@scio-labs/use-inkathon'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
@@ -22,7 +17,7 @@ type BuyTokenValues = { amountToSpend: string }
 
 export const BugBiteContractInteractions: FC = () => {
   const { api, activeAccount, activeSigner } = useInkathon()
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.bugbite)
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.pledge)
   const [tokenAmount, setTokenAmount] = useState<string>()
   const [isBuying, setIsBuying] = useState<boolean>(false)
   const { register, handleSubmit, watch } = useForm<BuyTokenValues>()
