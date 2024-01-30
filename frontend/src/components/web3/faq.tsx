@@ -158,7 +158,7 @@ const FaqFormModal: FC<{ onConfirm: (faq: FAQ) => void; editData?: FAQ }> = ({
             <input
               {...register('question')}
               type="text"
-              placeholder="Reward Tier Title"
+              placeholder="Question"
               className={inputClassName}
             />
             <textarea {...register('answer')} placeholder="Answer" className={textareaClassName} />

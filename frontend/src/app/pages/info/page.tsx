@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ApiPromise } from '@polkadot/api'
 import { ContractPromise } from '@polkadot/api-contract'
-import { useInkathon } from '@scio-labs/use-inkathon'
+import { contractQuery, decodeOutput, useInkathon } from '@scio-labs/use-inkathon'
 
 import { contractTxWithToast } from '@/utils/contract-tx-with-toast'
 
@@ -14,6 +14,39 @@ export default function Info({ searchParams }) {
   console.log({ searchParams })
   const [fundAmount, setFundAmount] = useState('0')
   const params = JSON.parse(searchParams.params)
+  const [amountRaised, setAmountRaised] = useState(0)
+  console.log({ params })
+  useEffect(() => {
+    // get_total_funds
+    const fetchAmountRaised = async () => {
+      const crowdFundingAbi = await import('@/deployments/crowdfunding.json')
+      const crowdFundingContract = new ContractPromise(api, crowdFundingAbi, params.projectContract)
+      const amountRaisedResult = await contractQuery(
+        api as ApiPromise,
+        '',
+        crowdFundingContract as ContractPromise,
+        'get_total_funds',
+        undefined,
+        [],
+      )
+      const {
+        output: amountRaised,
+        isError: isErrr,
+        decodedOutput: decOrr,
+      } = decodeOutput(
+        amountRaisedResult,
+        crowdFundingContract as ContractPromise,
+        'get_total_funds',
+      )
+      console.log({ amountRaised, goal: params.fundingGoals[0] })
+      console.log({
+        amountRaised: ((Number(amountRaised) / Number(params.fundingGoals[0])) * 100).toFixed(2),
+      })
+      setAmountRaised(Number(amountRaised))
+    }
+    fetchAmountRaised()
+  }, [])
+
   const handleFundClicked = async (event) => {
     console.log(searchParams)
 
@@ -24,7 +57,6 @@ export default function Info({ searchParams }) {
     }
     console.log(params.projectContract)
     const crowdFundingContract = new ContractPromise(api, crowdFundingAbi, params.projectContract) // useContract(crowdFundingAbi, projectContract)
-
     console.log(Number(fundAmount) * 1e12)
     const result = await contractTxWithToast(
       api as ApiPromise,
@@ -32,7 +64,7 @@ export default function Info({ searchParams }) {
       crowdFundingContract,
       'fund_project',
       { value: Number(fundAmount) * 1e12 },
-      [params.projectContract],
+      [],
     )
     console.log(Number(fundAmount))
   }
@@ -42,17 +74,19 @@ export default function Info({ searchParams }) {
         {/* 1 left panel */}
         <div className="w-3/5 flex-col  pb-2">
           <h2 className=" text-4xl font-bold">{params.title}</h2>
-          <h2 className="text-sm text-slate-700">
-            Personals models trained to Personal Memory, Unique to every individual
-          </h2>
+          <h2 className="text-sm text-slate-700">{params.elevatorPitch}</h2>
           <div className="mt-2 flex flex-row space-x-2">
-            <h2 className="bg-slate-200 p-1 font-bold uppercase text-slate-700">category</h2>
+            <h2 className="bg-slate-200 p-1 font-bold uppercase text-slate-700">
+              {params.category}
+            </h2>
 
-            <h2 className="bg-slate-200 p-1 font-bold uppercase text-slate-700">subcategory</h2>
+            <h2 className="bg-slate-200 p-1 font-bold uppercase text-slate-700">
+              {params.subcategory}
+            </h2>
           </div>
           <iframe
             className="mt-2 h-96 w-full"
-            src="https://www.youtube.com/embed/E7wJTI-1dvQ"
+            src={params.videoUrl ? params.video_url : 'https://www.youtube.com/embed/E7wJTI-1dvQ'}
             frameborder="0"
             allow="autoplay; encrypted-media"
             allowfullscreen
@@ -62,8 +96,12 @@ export default function Info({ searchParams }) {
 
         {/* 1 right panel */}
         <div className=" flex w-2/5 flex-col items-center ">
-          <h2 className="card-title text-3xl font-bold text-black">$729,299</h2>
-          <h2 className="mt-2 text-sm text-slate-700">72% raised of funding amount</h2>
+          {params.fun}
+          <h2 className="card-title text-3xl font-bold text-black">${amountRaised / 1e12}</h2>
+          <h2 className="mt-2 text-sm text-slate-700">
+            {((amountRaised / Number(params.fundingGoals[0])) * 100).toFixed(2)}% raised of funding
+            amount
+          </h2>
           <progress className="progress progress-success mt-2 w-56" value="72" max="100"></progress>
           <h2 className="mt-2 w-3/4 text-center text-lg font-bold">72 days </h2>
           <h2 className="mt-0 text-sm text-slate-700">left to invest</h2>
@@ -74,7 +112,7 @@ export default function Info({ searchParams }) {
                 setFundAmount(event.target.value)
               }}
               type="number"
-              className=" rounded-xl p-2"
+              className=" rounded-xl border-2 p-2"
             ></input>
             <button
               onClick={handleFundClicked}
@@ -90,36 +128,65 @@ export default function Info({ searchParams }) {
       <div className="mt-8 flex w-11/12">
         <div className="bg-red flex w-3/5 flex-col">
           <div className="flex flex-col items-center">
-            <h2 className="text-4xl font-bold text-black">Human Memory is Imperfect</h2>
-            <p className="text-sm text-slate-800">
-              We only encounter a fraction of the total amount of information encountered in daily
-              life,(about 80% forgotten in 6 minutes)
-            </p>
-            <img
-              src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-              className="mt-2 h-96 w-11/12 rounded-2xl object-cover"
-            />
-            <p className="mt-2 w-11/12 text-sm text-slate-800">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae vel facilis commodi
-              nobis labore dolore, maxime dignissimos aperiam fugiat ratione at quas nihil animi est
-              itaque tenetur asperiores fugit, laboriosam veniam exercitationem! Nemo, odio dicta
-              corporis expedita architecto neque cumque id delectus, et distinctio earum harum cum.
-              Iure accusantium blanditiis, ut voluptates ipsum exercitationem non optio quaerat
-              quidem, tenetur quas. Atque inventore voluptate harum. Error quo voluptates possimus
-              ea eligendi autem sint ullam, aspernatur dolor blanditiis. Vero veniam rem explicabo
-              dignissimos rerum optio asperiores. Eos architecto sunt iure neque magnam! Fugit
-              sequi, eaque temporibus ut in quam iusto debitis! Numquam perspiciatis repudiandae
-              perferendis modi cum. Earum, cum. Tempore quaerat ipsam excepturi repudiandae,
-              voluptate reiciendis corrupti nisi rem quos dignissimos numquam.
-            </p>
+            {/* <h2 className="text-4xl font-bold text-black">Human Memory is Imperfect</h2> */}
+            <p className="w-11/12 text-sm text-slate-800">{params.story}</p>
+            <img src={params.imageUrl} className="mt-2 h-96 w-11/12 rounded-2xl object-cover" />
+            <p className="mt-2 w-11/12 text-sm text-slate-800"> {params.risksAndChallenges}</p>
           </div>
         </div>
         {/* right panel 2 */}
         <div className="w-2/5 flex-col items-center">
           <h2 className="text-center text-2xl font-bold text-slate-700">Reward Tiers </h2>
+          <div className="divider divider-info"></div>
+          {params.rewardTiers.map((reward, rewardIndex) => {
+            return (
+              <div key={rewardIndex}>
+                <h2 className="mt-8 text-center text-xl font-bold text-slate-700">
+                  ${reward.amount}
+                </h2>
+                <h2 className="text-center text-sm text-slate-800">{reward.description}</h2>
+                <div className="divider divider-info"></div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+      {/* End of second section */}
+      <div className="flex w-11/12 ">
+        <div className="mt-8 flex w-3/5 flex-col items-center  p-2">
+          <div className="w-11/12">
+            <div className="border-3 flex w-96 flex-col  items-center rounded-lg bg-slate-200 p-8 ">
+              {params.memberInfo.map((member, index) => (
+                <div className="mt-8 flex w-full items-center" key={index}>
+                  <img
+                    className="mask mask-squircle h-24 w-24 rounded-full"
+                    src={member.imageUrl}
+                  />
+                  <div className="flex h-24 flex-col items-center justify-center">
+                    <p className="ml-2 font-bold">{member.name ? member.name : 'John Doe'}</p>
+                    <span className="badge badge-ghost badge-sm ml-2 bg-red-50">
+                      {member.role ? member.role : 'CEO'}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="w-2/5 "></div>
+      </div>
 
-          <h2 className="mt-8 text-center text-xl font-bold text-slate-700">$20000 </h2>
-          <h2 className="text-center text-sm text-slate-800">lorem60</h2>
+      <div className="mt-8 mt-8 flex flex-col items-center pb-8">
+        <h1 className="text-5xl font-bold"> Frequently Asked Questions</h1>
+        <div className="w-11/12">
+          {params.faqs.map((faq, faqIndex) => {
+            return (
+              <div key={faqIndex}>
+                <h1 className="text-2xl font-bold text-slate-800"> {faq.question}</h1>
+                <h1 className="text-md text-slate-700"> {faq.answer}</h1>
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>

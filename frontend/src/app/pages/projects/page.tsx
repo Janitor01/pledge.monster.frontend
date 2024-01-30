@@ -12,20 +12,22 @@ import {
   useInkathon,
   useRegisteredContract,
 } from '@scio-labs/use-inkathon'
-import toast from 'react-hot-toast'
 
 export default function ListProposal() {
   const { contract, address: contractAddress } = useRegisteredContract(ContractIds.pledge)
   console.log({ contract })
-  const { api, activeAccount, activeSigner } = useInkathon()
+  const { api } = useInkathon()
   const router = useRouter()
   const [allProjects, setAllProjects] = useState([])
   const [refresh, setRefresh] = useState(true)
   const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     const fetchProjects = async () => {
-      if (!activeAccount || !contract || !activeSigner || !api) {
-        toast.error('Wallet not connected. Try again…')
+      setLoading(true)
+      if (!contract || !api) {
+        console.log('no contract')
+        setLoading(false)
         return
       }
       const usersLengthResult = await contractQuery(
@@ -129,13 +131,15 @@ export default function ListProposal() {
         }
       }
       setAllProjects(allProjects)
+      setLoading(false)
       console.log(allProjects[0])
     }
     fetchProjects()
-  }, [api, contract, activeAccount, activeSigner])
+  }, [api, contract])
 
   return (
     <div className="mb-8 flex w-full items-center justify-center ">
+      {loading && <span className="loading loading-spinner loading-lg"></span>}
       <div className="w-80/100 my-0 ml-0 mr-0  mt-8 flex flex-wrap justify-center  space-x-8 space-y-2 pr-8">
         {allProjects.map((el, index) => (
           <div
