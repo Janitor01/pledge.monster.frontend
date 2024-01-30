@@ -118,7 +118,7 @@ export default function Info({ searchParams }) {
               onClick={handleFundClicked}
               className="btn btn-primary mt-4 border-none bg-primary transition duration-500 hover:scale-110 hover:bg-sky-500"
             >
-              Invest in Personal Ai
+              Invest in {params.title}
             </button>
           </div>
         </div>
