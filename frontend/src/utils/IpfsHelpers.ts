@@ -1,5 +1,5 @@
 
-// @ts-nocheck
+
 
 // import { ed25519 as Signer } from "@ucanto/principal";
 

@@ -132,7 +132,7 @@ export default function ListProposal() {
       console.log(allProjects[0])
     }
     fetchProjects()
-  }, [api, contract])
+  }, [api, contract, activeAccount, activeSigner])
 
   return (
     <div className="mb-8 flex w-full items-center justify-center ">

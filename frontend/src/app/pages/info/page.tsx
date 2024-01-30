@@ -13,11 +13,10 @@ export default function Info({ searchParams }) {
   const { api, activeAccount, activeSigner } = useInkathon()
   console.log({ searchParams })
   const [fundAmount, setFundAmount] = useState('0')
-
+  const params = JSON.parse(searchParams.params)
   const handleFundClicked = async (event) => {
     console.log(searchParams)
 
-    const params = JSON.parse(searchParams.params)
     console.log({ title: params.title })
     const crowdFundingAbi = await import('@/deployments/crowdfunding.json')
     if (!activeAccount) {
@@ -42,7 +41,7 @@ export default function Info({ searchParams }) {
       <div className="mt-16 flex w-11/12">
         {/* 1 left panel */}
         <div className="w-3/5 flex-col  pb-2">
-          <h2 className=" text-4xl font-bold">Personal Ai</h2>
+          <h2 className=" text-4xl font-bold">{params.title}</h2>
           <h2 className="text-sm text-slate-700">
             Personals models trained to Personal Memory, Unique to every individual
           </h2>
