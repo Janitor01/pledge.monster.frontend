@@ -132,7 +132,7 @@ export default function ListProposal() {
       }
       setAllProjects(allProjects)
       setLoading(false)
-      console.log(allProjects[0])
+      console.log(allProjects)
     }
     fetchProjects()
   }, [api, contract])

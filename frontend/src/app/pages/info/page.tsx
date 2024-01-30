@@ -85,7 +85,11 @@ export default function Info({ searchParams }) {
           </div>
           <iframe
             className="mt-2 h-96 w-full"
-            src={params.videoUrl ? params.video_url : 'https://www.youtube.com/embed/E7wJTI-1dvQ'}
+            src={
+              params.projectInfo.videoUrl
+                ? params.projectInfo.videoUrl
+                : 'https://www.youtube.com/embed/E7wJTI-1dvQ'
+            }
             frameborder="0"
             allow="autoplay; encrypted-media"
             allowfullscreen
