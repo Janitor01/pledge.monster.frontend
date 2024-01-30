@@ -42,7 +42,7 @@ export default function Info({ searchParams }) {
       console.log({
         amountRaised: ((Number(amountRaised) / Number(params.fundingGoals[0])) * 100).toFixed(2),
       })
-      setAmountRaised(Number(amountRaised))
+      setAmountRaised(Number(amountRaised.replace(/,/g, '')))
     }
     fetchAmountRaised()
   }, [])
