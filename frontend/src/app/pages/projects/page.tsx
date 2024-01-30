@@ -138,43 +138,46 @@ export default function ListProposal() {
   }, [api, contract])
 
   return (
-    <div className="mb-8 flex w-full items-center justify-center ">
-      {loading && <span className="loading loading-spinner loading-lg"></span>}
-      <div className="w-80/100 my-0 ml-0 mr-0  mt-8 flex flex-wrap justify-center  space-x-8 space-y-2 pr-8">
-        {allProjects.map((el, index) => (
-          <div
-            key={index}
-            className={`container flex w-96 flex-col items-center justify-center  ${
-              index === 0 ? 'm-0 ml-8 mt-0' : ''
-            }`}
-          >
-            <div className="card m-0 mx-0 w-96 border border-solid bg-base-100">
-              {/* <div className="m-0 mx-0 w-96 border border-solid bg-base-100"> */}
-              {/* <figure> */}
-              <div className="relative">
-                <img
-                  src={el.imageUrl}
-                  alt="Project Cover"
-                  className="h-40 w-full rounded-t-xl object-cover"
-                />
-                <div className="absolute bottom-1 right-1 flex w-3/4 flex-row justify-evenly">
-                  <span className="badge badge-ghost badge-sm bg-opacity-10 p-2 text-white">
-                    {el.category}
-                  </span>
-                  <span className="badge badge-ghost badge-sm bg-opacity-10 p-2 text-white">
-                    {el.subcategory}
-                  </span>
+    <div>
+      <div className="flex flex-col items-center">
+        {loading && <span className="loading loading-spinner loading-lg "></span>}
+      </div>
+      <div className="mb-8 flex w-full items-center justify-center ">
+        <div className="my-0 ml-0 mr-0 mt-8  flex w-9/12 flex-wrap justify-start  space-x-8 space-y-2 pr-8">
+          {allProjects.map((el, index) => (
+            <div
+              key={index}
+              className={`container flex w-96 flex-col items-center justify-center  ${
+                index === 0 ? 'm-0 ml-8 mt-0' : ''
+              }`}
+            >
+              <div className="card m-0 mx-0 w-96 border border-solid bg-base-100">
+                {/* <div className="m-0 mx-0 w-96 border border-solid bg-base-100"> */}
+                {/* <figure> */}
+                <div className="relative">
+                  <img
+                    src={el.imageUrl}
+                    alt="Project Cover"
+                    className="h-40 w-full rounded-t-xl object-cover"
+                  />
+                  <div className="absolute bottom-1 right-1 flex w-3/4 flex-row justify-evenly">
+                    <span className="badge badge-ghost badge-sm bg-opacity-10 p-2 text-white">
+                      {el.category}
+                    </span>
+                    <span className="badge badge-ghost badge-sm bg-opacity-10 p-2 text-white">
+                      {el.subcategory}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              {/* </figure> */}
-              {/* </div> */}
-              <div className="card-body">
-                <h2 className="card-title line-clamp-1 w-3/4 text-2xl font-bold">{el.title}</h2>
-                <p className="line-clamp-3 max-h-[3.5rem] min-h-[3.5rem] text-sm text-slate-700">
-                  {el.elevatorPitch}
-                </p>
-                {/* {el.memberInfo
+                {/* </figure> */}
+                {/* </div> */}
+                <div className="card-body">
+                  <h2 className="card-title line-clamp-1 w-3/4 text-2xl font-bold">{el.title}</h2>
+                  <p className="line-clamp-3 max-h-[3.5rem] min-h-[3.5rem] text-sm text-slate-700">
+                    {el.elevatorPitch}
+                  </p>
+                  {/* {el.memberInfo
                   .filter((filterEl, filterIndex) => filterIndex < 2)
                   .map((member, index) => (
                     <div className="flex items-center justify-between" key={index}>
@@ -186,27 +189,28 @@ export default function ListProposal() {
                     </div>
                   ))} */}
 
-                <div className="card-actions justify-end">
-                  {/* <Link
+                  <div className="card-actions justify-end">
+                    {/* <Link
                     href={{
                       pathname: '/pages/info',
                       query: el,
                     }}
                   > */}
-                  <button
-                    className="btn btn-primary mt-8 w-full bg-primary"
-                    onClick={(event) => {
-                      router.push(`/pages/info?params=${JSON.stringify({ ...el })}`)
-                    }}
-                  >
-                    View More
-                  </button>
-                  {/* </Link> */}
+                    <button
+                      className="btn btn-primary mt-8 w-full bg-primary"
+                      onClick={(event) => {
+                        router.push(`/pages/info?params=${JSON.stringify({ ...el })}`)
+                      }}
+                    >
+                      View More
+                    </button>
+                    {/* </Link> */}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )

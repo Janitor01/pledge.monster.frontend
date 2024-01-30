@@ -67,6 +67,7 @@ export default function Info({ searchParams }) {
 
     await fetchAmountRaised()
   }
+
   return (
     <div className="flex w-full flex-col items-center bg-white">
       <div className="mt-16 flex w-11/12">
