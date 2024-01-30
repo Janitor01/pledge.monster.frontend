@@ -152,7 +152,11 @@ export default function ListProposal() {
               {/* <div className="m-0 mx-0 w-96 border border-solid bg-base-100"> */}
               {/* <figure> */}
               <div className="relative">
-                <img src={el.imageUrl} alt="Project Cover" className="rounded-t-xl" />
+                <img
+                  src={el.imageUrl}
+                  alt="Project Cover"
+                  className="h-40 w-full rounded-t-xl object-cover"
+                />
                 <div className="absolute bottom-1 right-1 flex w-3/4 flex-row justify-evenly">
                   <span className="badge badge-ghost badge-sm bg-opacity-10 p-2 text-white">
                     {el.category}
