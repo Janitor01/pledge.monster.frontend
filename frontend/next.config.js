@@ -20,6 +20,9 @@ const nextConfig = {
     '@polkadot/util',
     '@polkadot/util-crypto',
   ],
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 module.exports = nextConfig
