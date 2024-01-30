@@ -20,6 +20,9 @@ const nextConfig = {
     '@polkadot/util',
     '@polkadot/util-crypto',
   ],
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },

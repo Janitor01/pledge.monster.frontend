@@ -10,7 +10,7 @@ export const HomeTopBar: FC = () => {
   const [isChecked, setChecked] = useState(false)
 
   const handleToggle = () => {
-    const checkbox = document.getElementById('my-drawer')
+    const checkbox = document.getElementById('my-drawer') as HTMLInputElement
     if (checkbox) {
       checkbox.checked = !checkbox.checked
     }
