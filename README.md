@@ -45,6 +45,18 @@ Experience Pledge Monster firsthand and see how it's revolutionizing crowdfundin
 
 [Live Demo](https://pledge.monster)
 
+## Creating your own campaign!
+
+Just click on the top right (+) button!
+
+<img src="https://github.com/Janitor01/pledge.monster.frontend/assets/155651380/254a2c91-8dfa-4285-b173-323424bb4ff4" width="300" height="auto">
+
+Then fill out the cards with the required info!
+
+<img src="https://github.com/Janitor01/pledge.monster.frontend/assets/155651380/6edd882f-d24b-46e6-95a4-5d029d127d18" width="300" height="auto">
+
+
+
 ## Contributing
 
 We highly encourage community contributions. Whether it's feature enhancement, bug fixing, or improvements in documentation, your help is welcome.
