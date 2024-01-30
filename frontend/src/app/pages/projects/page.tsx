@@ -166,8 +166,10 @@ export default function ListProposal() {
               {/* </figure> */}
               {/* </div> */}
               <div className="card-body">
-                <h2 className="card-title w-2/4 text-2xl font-bold">{el.title}</h2>
-                <p className="line-clamp-3 text-sm text-slate-700">{el.elevatorPitch}</p>
+                <h2 className="card-title line-clamp-1 w-3/4 text-2xl font-bold">{el.title}</h2>
+                <p className="line-clamp-3 max-h-[3.5rem] min-h-[3.5rem] text-sm text-slate-700">
+                  {el.elevatorPitch}
+                </p>
                 {/* {el.memberInfo
                   .filter((filterEl, filterIndex) => filterIndex < 2)
                   .map((member, index) => (
