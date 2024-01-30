@@ -16,34 +16,31 @@ export default function Info({ searchParams }) {
   const params = JSON.parse(searchParams.params)
   const [amountRaised, setAmountRaised] = useState(0)
   console.log({ params })
+  const fetchAmountRaised = async () => {
+    console.log('fetching amount raised')
+    const crowdFundingAbi = await import('@/deployments/crowdfunding.json')
+    const crowdFundingContract = new ContractPromise(api, crowdFundingAbi, params.projectContract)
+    const amountRaisedResult = await contractQuery(
+      api as ApiPromise,
+      '',
+      crowdFundingContract as ContractPromise,
+      'get_total_funds',
+      undefined,
+      [],
+    )
+    const {
+      output: amountRaised,
+      isError: isErrr,
+      decodedOutput: decOrr,
+    } = decodeOutput(amountRaisedResult, crowdFundingContract as ContractPromise, 'get_total_funds')
+    console.log({ amountRaised, goal: params.fundingGoals[0] })
+    console.log({
+      amountRaised: ((Number(amountRaised) / Number(params.fundingGoals[0])) * 100).toFixed(2),
+    })
+    setAmountRaised(Number(amountRaised.replace(/,/g, '')))
+  }
   useEffect(() => {
     // get_total_funds
-    const fetchAmountRaised = async () => {
-      const crowdFundingAbi = await import('@/deployments/crowdfunding.json')
-      const crowdFundingContract = new ContractPromise(api, crowdFundingAbi, params.projectContract)
-      const amountRaisedResult = await contractQuery(
-        api as ApiPromise,
-        '',
-        crowdFundingContract as ContractPromise,
-        'get_total_funds',
-        undefined,
-        [],
-      )
-      const {
-        output: amountRaised,
-        isError: isErrr,
-        decodedOutput: decOrr,
-      } = decodeOutput(
-        amountRaisedResult,
-        crowdFundingContract as ContractPromise,
-        'get_total_funds',
-      )
-      console.log({ amountRaised, goal: params.fundingGoals[0] })
-      console.log({
-        amountRaised: ((Number(amountRaised) / Number(params.fundingGoals[0])) * 100).toFixed(2),
-      })
-      setAmountRaised(Number(amountRaised.replace(/,/g, '')))
-    }
     fetchAmountRaised()
   }, [])
 
@@ -67,6 +64,8 @@ export default function Info({ searchParams }) {
       [],
     )
     console.log(Number(fundAmount))
+
+    await fetchAmountRaised()
   }
   return (
     <div className="flex w-full flex-col items-center bg-white">
