@@ -1,60 +1,78 @@
-# Presale Frontend for Inkathon Boilerplate
+# Pledge Monster
 
-## Overview
+## Introduction
 
-This project is the frontend code for a presale contract using the Inkathon boilerplate. It provides an interface for blockchain-based token transactions, enabling users to exchange `$AZERO` for Custom Tokens.
+Welcome to Pledge Monster, a decentralized crowdfunding platform built on the Aleph Zero network. We're on a mission to disrupt the traditional crowdfunding market by providing a decentralized alternative that empowers users with more control and transparency.
 
-## Features
+## Project Purpose
 
-- **Wallet Connection**: Allows blockchain wallet interactions for transactions.
-- **Buy Tokens**: Facilitates the purchase of Custom Tokens in exchange for `$AZERO`.
-- **Real-Time Calculation**: Dynamically calculates the amount of Custom Tokens based on the `$AZERO` input and current token price.
-- **Transaction Handling**: Manages the buying process, including error handling and status updates.
+Pledge Monster is designed to tap into the burgeoning crowdfunding industry, which was valued at approximately USD 16.5 billion in 2023. Our platform aims to address the centralization issues in the current market, bringing the power back to the people through a decentralized, secure, and user-friendly interface.
 
-## Technology Stack
+## Expected Growth of Crowdfunding sector
 
-- **React**: For building the user interface.
-- **TypeScript**: For type-safe code development.
-- **useInkathon**: A custom hook from `@scio-labs/use-inkathon` for contract interactions.
-- **React Hook Form**: For form state and validation management.
-- **react-hot-toast**: For displaying transaction status and error notifications.
+![image](https://github.com/Janitor01/pledge.monster.frontend/assets/155651380/89bc64bf-c3d1-4f90-b94e-88f927cf6b1c)
 
-## Custom Contracts
+## Features and Architecture
 
-To modify or add new contracts:
+- **Decentralized Crowdfunding**: Utilizing blockchain technology to decentralize control and operations.
+- **Aleph Zero Network**: Building on a network known for its speed and security.
+- **Smart Contract Enabled**: Automating transactions and ensuring transparency with smart contracts.
+- **User-Friendly Interface**: Easy to navigate interface for both campaign creators and contributors.
+- **Enhanced Security**: Leveraging blockchain for secure transactions and data protection.
 
-1. **Add New Contract**: Create a new directory under `contracts/src/` for your contract.
-2. **Update Workspace**: Add it as a workspace member in `contracts/Cargo.toml`.
-3. **Deployment Script**: Modify `contracts/scripts/deploy.ts` for new deployment scripts.
-4. **Adjust Frontend**: Update `ContractIds` enum and `getDeployments` function in `frontend/src/deployments/deployments.ts`.
 
-## Installation and Setup
 
-1. **Clone the Repository**:
-git clone https://github.com/Janitor01/presale-frontend.git
 
-2. **Install Dependencies**:
-cd presale-frontend
-npm install
-3. **Run the Application**:
-npm start
-Access at `http://localhost:3000`.
+## Setup and Installation
 
-## Usage
+To set up Pledge Monster on your local machine:
 
-1. **Connect Wallet**: Users must connect their blockchain wallets.
-2. **Enter `$AZERO` Amount**: Specify the amount to spend.
-3. **View Custom Token Amount**: See calculated equivalent tokens.
-4. **Buy Tokens**: Click 'Buy' to execute the transaction.
+
+# Clone the repository
+git clone [repository-link](https://github.com/Janitor01/pledge.monster.frontend)
+
+# Navigate to the project directory
+cd pledge.monster.frontend
+
+# Install dependencies
+pnpm install
+
+# Run the development server
+pnpm run dev
+## Live Demo
+
+Experience Pledge Monster firsthand and see how it's revolutionizing crowdfunding:
+
+[Live Demo](https://pledge.monster)
 
 ## Contributing
 
-Contributions are welcome. Follow the existing code style and add tests for new functionality. Fork the repository and submit a pull request with your changes.
+We highly encourage community contributions. Whether it's feature enhancement, bug fixing, or improvements in documentation, your help is welcome.
+
+To contribute:
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## Support and Issues
+
+Encountered issues or need support? Don't hesitate to open an issue in our GitHub repository. We aim to provide prompt and comprehensive support to all users.
 
 ## License
 
-Licensed under the MIT License. See [LICENSE](LICENSE) for details.
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## Contact
+
+For further inquiries or suggestions, feel free to reach out to our team at [contact@pledge.monster](mailto:tempmailvoid@gmail.com).
+
+## Acknowledgements
+
+- Aleph Zero Community
+- Our Contributors & Supporters
 
 ---
 
-*Ensure to customize the repository links, project details, and instructions as per your actual project setup and functionality.*
+Join the Pledge Monster community and be a part of the decentralized crowdfunding revolution. Let's democratize fundraising together!
