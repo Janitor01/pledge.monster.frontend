@@ -31,6 +31,7 @@ import { Media } from '@/components/web3/media'
 import { ProjectInfo } from '@/components/web3/projectinfo'
 import { Story } from '@/components/web3/story'
 import { TeamInfo } from '@/components/web3/teaminfo'
+import IpfsHelper from '@/utils/IpfsHelpers'
 import { contractTxWithToast } from '@/utils/contract-tx-with-toast'
 
 import '../../globals.css'
@@ -132,6 +133,31 @@ export default function CreatePage() {
       image_url: 'String',
       social_media_links: ['Vec<String>'],
     }
+
+    console.log('start')
+    const ipfs = new IpfsHelper()
+    await ipfs.initialize()
+    const selectedFile = mediaContent.imageUrl
+    console.log(selectedFile)
+    const { data } = await ipfs.putFile([selectedFile as unknown as File])
+    const imageLink = `https://${data}.ipfs.w3s.link/${(selectedFile as unknown as File).name}`
+    console.log({
+      data,
+      link: `https://${data}.ipfs.w3s.link/${(selectedFile as unknown as File).name}`,
+    })
+    console.log('finish')
+
+    const newTeam = await Promise.all(
+      teamContent.team.map(async (team, index) => {
+        const { data } = await ipfs.putFile([team.image_url as unknown as File])
+        const image_url = `https://${data}.ipfs.w3s.link/${
+          (team.image_url as unknown as File).name
+        }`
+        return { ...team, image_url }
+      }),
+    )
+    console.log({ newTeam })
+
     const ProjectInfo = {
       name: titleContent.title,
       info: projectInfoContent.projectInfo,
@@ -159,17 +185,17 @@ export default function CreatePage() {
       category: categoryContent.category,
       subcategory: categoryContent.subCategory,
       location: countryContent.country,
-      image_url: mediaContent.imageUrl,
+      image_url: imageLink,
       video_url: mediaContent.videoUrl,
-      launch_date: 20, // Unix timestamp
+      launch_date: new Date(launchTimeContent.launchDate).getTime(), // Unix timestamp
       duration: 20, // in seconds
-      funding_goals: [0],
+      funding_goals: [Number(goalContent.goal) * 1e12],
       reward_tiers: [RewardTier],
       story: storyContent.story,
       risks_and_challenges: storyContent.risks,
       faqs: faqContent.faqs,
       project_info: ProjectInfo,
-      member_info: teamContent.team,
+      member_info: newTeam,
       wallet: activeAccount.address,
       project_urls: [
         projectInfoContent.twitter,

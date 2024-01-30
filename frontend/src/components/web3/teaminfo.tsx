@@ -80,6 +80,9 @@ export const TeamInfo: FC<{ theme: string }> = ({
         <Card className="card-component">
           <CardContent className="pb-3 pt-6">
             <form onSubmit={methods.handleSubmit(onSubmit)} className="flex flex-col gap-2">
+              <Button>
+                <input type="submit" value="Submit" />
+              </Button>
               <Button type="button" onClick={openModal}>
                 Add New Team Member
               </Button>
@@ -111,7 +114,7 @@ export const TeamInfo: FC<{ theme: string }> = ({
                     <div className={'team-member-item ${theme}-theme'}>
                       {field.image_url ? (
                         <img
-                          src={field.image_url}
+                          src={URL.createObjectURL(field.image_url)}
                           alt={field.name}
                           onError={(e) => {
                             e.currentTarget.src = 'default-image-url'
@@ -140,10 +143,6 @@ export const TeamInfo: FC<{ theme: string }> = ({
                   </SwiperSlide>
                 ))}
               </Swiper>
-
-              <Button>
-                <input type="submit" value="Submit" />
-              </Button>
             </form>
           </CardContent>
         </Card>
@@ -179,8 +178,9 @@ const TeamMemberFormModal: FC<{
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null)
 
   const handleImageUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newUrl = e.target.value
+    const newUrl = e.target.files![0]
     setValue('image_url', newUrl)
+    console.log({ newUrl, path: URL.createObjectURL(newUrl) })
     setImagePreviewUrl(newUrl)
   }
 
@@ -234,13 +234,19 @@ const TeamMemberFormModal: FC<{
               <input {...register('name')} placeholder="Name" className={inputClassName} />
               <input {...register('role')} placeholder="Role" className={inputClassName} />
               <input
-                value={getValues('image_url') || ''}
+                // value={getValues('image_url') || ''}
+                {...register('image_url')}
+                type="file"
+                accept="image/*"
                 onChange={handleImageUrlChange}
-                placeholder="Image URL"
                 className={inputClassName}
               />
               {imagePreviewUrl && (
-                <img src={imagePreviewUrl} alt="Preview" className="h-auto w-1/3" />
+                <img
+                  src={URL.createObjectURL(imagePreviewUrl)}
+                  alt="Preview"
+                  className="h-auto w-1/3"
+                />
               )}
               <h2 className="mt-4 text-center font-mono text-gray-400">Social Media</h2>
               <div

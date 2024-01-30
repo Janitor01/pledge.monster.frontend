@@ -89,6 +89,7 @@ export const Launch: FC = ({
                 className={inputClassName}
                 min={today}
                 onChange={(event) => {
+                  console.log(new Date(event.target.value).getTime())
                   setLaunchTimeContent({
                     ...launchTimeContent,
                     launchDate: event.target.value,

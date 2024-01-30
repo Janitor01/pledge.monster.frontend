@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x9c3f4e0ed8b5554bae91307de2f72d2a5dd19fa227638c99e1d0491e27d7db09",
+    "hash": "0x49c2d098e2510090ba27688473c5a0ea881420c6a771a4c7d2ef250d798bc427",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.77.0-nightly",
     "build_info": {
@@ -109,6 +109,19 @@
         "selector": "0x91715b09"
       },
       {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_total_funds",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": ["ink", "MessageResult"],
+          "type": 21
+        },
+        "selector": "0xa01c9ccb"
+      },
+      {
         "args": [
           {
             "label": "new_project_details",
@@ -125,20 +138,12 @@
         "payable": false,
         "returnType": {
           "displayName": ["ink", "MessageResult"],
-          "type": 21
+          "type": 22
         },
         "selector": "0x23231607"
       },
       {
-        "args": [
-          {
-            "label": "_project_id",
-            "type": {
-              "displayName": ["AccountId"],
-              "type": 0
-            }
-          }
-        ],
+        "args": [],
         "default": false,
         "docs": [],
         "label": "fund_project",
@@ -146,7 +151,7 @@
         "payable": true,
         "returnType": {
           "displayName": ["ink", "MessageResult"],
-          "type": 21
+          "type": 22
         },
         "selector": "0xdcadad5d"
       },
@@ -159,7 +164,7 @@
         "payable": true,
         "returnType": {
           "displayName": ["ink", "MessageResult"],
-          "type": 24
+          "type": 21
         },
         "selector": "0x081ece10"
       },
@@ -439,6 +444,15 @@
                 }
               },
               "name": "deployer"
+            },
+            {
+              "layout": {
+                "leaf": {
+                  "key": "0x00000000",
+                  "ty": 6
+                }
+              },
+              "name": "total_funds_raised"
             }
           ],
           "name": "DecentralizedCrowdfunding"
@@ -925,114 +939,6 @@
               {
                 "fields": [
                   {
-                    "type": 22
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 18
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 22
-          },
-          {
-            "name": "E",
-            "type": 18
-          }
-        ],
-        "path": ["Result"]
-      }
-    },
-    {
-      "id": 22,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
-                    "type": 17
-                  }
-                ],
-                "index": 0,
-                "name": "Ok"
-              },
-              {
-                "fields": [
-                  {
-                    "type": 23
-                  }
-                ],
-                "index": 1,
-                "name": "Err"
-              }
-            ]
-          }
-        },
-        "params": [
-          {
-            "name": "T",
-            "type": 17
-          },
-          {
-            "name": "E",
-            "type": 23
-          }
-        ],
-        "path": ["Result"]
-      }
-    },
-    {
-      "id": 23,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "index": 0,
-                "name": "NotOwner"
-              },
-              {
-                "index": 1,
-                "name": "ProjectNotFound"
-              },
-              {
-                "index": 2,
-                "name": "InvalidInput"
-              },
-              {
-                "index": 3,
-                "name": "FundingError"
-              }
-            ]
-          }
-        },
-        "path": ["crowdfunding", "decentralized_crowdfunding", "Error"]
-      }
-    },
-    {
-      "id": 24,
-      "type": {
-        "def": {
-          "variant": {
-            "variants": [
-              {
-                "fields": [
-                  {
                     "type": 6
                   }
                 ],
@@ -1062,6 +968,114 @@
           }
         ],
         "path": ["Result"]
+      }
+    },
+    {
+      "id": 22,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 23
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 18
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 23
+          },
+          {
+            "name": "E",
+            "type": 18
+          }
+        ],
+        "path": ["Result"]
+      }
+    },
+    {
+      "id": 23,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 17
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 24
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 17
+          },
+          {
+            "name": "E",
+            "type": 24
+          }
+        ],
+        "path": ["Result"]
+      }
+    },
+    {
+      "id": 24,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "index": 0,
+                "name": "NotOwner"
+              },
+              {
+                "index": 1,
+                "name": "ProjectNotFound"
+              },
+              {
+                "index": 2,
+                "name": "InvalidInput"
+              },
+              {
+                "index": 3,
+                "name": "FundingError"
+              }
+            ]
+          }
+        },
+        "path": ["crowdfunding", "decentralized_crowdfunding", "Error"]
       }
     },
     {

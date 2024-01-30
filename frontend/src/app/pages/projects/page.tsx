@@ -1,4 +1,5 @@
-import Image from 'next/image'
+'use client'
+
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -48,7 +49,7 @@ export default function ListProposal() {
           api as ApiPromise,
           '',
           contract as ContractPromise,
-          'get_sale_for_user',
+          'get_contract_for_user',
           undefined,
           [i],
         )
@@ -56,7 +57,11 @@ export default function ListProposal() {
           output: projectAccountId,
           isError: isE,
           decodedOutput: decO,
-        } = decodeOutput(projectAccountIdResult, contract as ContractPromise, 'get_sale_for_user')
+        } = decodeOutput(
+          projectAccountIdResult,
+          contract as ContractPromise,
+          'get_contract_for_user',
+        )
 
         const numberProjectsUnderUserResult = await contractQuery(
           api as ApiPromise,
@@ -130,7 +135,7 @@ export default function ListProposal() {
   }, [api, contract])
 
   return (
-    <div className="flex w-full items-center justify-center border border-solid ">
+    <div className="mb-8 flex w-full items-center justify-center ">
       <div className="w-80/100 my-0 ml-0 mr-0  mt-8 flex flex-wrap justify-center  space-x-8 space-y-2 pr-8">
         {allProjects.map((el, index) => (
           <div
@@ -141,18 +146,31 @@ export default function ListProposal() {
           >
             <div className="card m-0 mx-0 w-96 border border-solid bg-base-100">
               <figure>
-                <Image
-                  src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-                  alt="Shoes"
-                />
+                <img src={el.imageUrl} alt="Project Cover" />
               </figure>
               <div className="card-body">
-                <h2 className="card-title w-full text-center">{el.title}</h2>
-                {el.memberInfo.map((member, index) => (
-                  <p key={index}>{member.name}</p>
-                ))}
-                <p>Team Member 2</p>
-                <p> {el.category} </p>
+                <div className="flex">
+                  <h2 className="card-title w-2/4">Project Title: </h2>
+                  <h2 className="card-title  w-2/4">{el.title}</h2>
+                </div>
+                <div className="flex">
+                  <h2 className="card-title w-2/4">Category: </h2>
+                  <h2 className="card-title  w-2/4">{el.category}</h2>
+                </div>
+
+                {el.memberInfo
+                  .filter((filterEl, filterIndex) => filterIndex < 2)
+                  .map((member, index) => (
+                    <div className="flex items-center justify-between" key={index}>
+                      <img className="mask mask-squircle h-12 w-12" src={member.imageUrl} />
+                      {/* <p className="w-2/4 text-center">
+                        {member.name}
+                      </p> */}
+                      {member.name}
+                      <br />
+                      <span className="badge badge-ghost badge-sm">{member.role}</span>
+                    </div>
+                  ))}
 
                 <div className="card-actions justify-end">
                   {/* <Link

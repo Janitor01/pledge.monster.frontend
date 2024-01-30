@@ -112,15 +112,15 @@ export const Media: FC<{ theme: string }> = ({
                 <div className="flex items-center">
                   <input
                     {...methods.register('image_url')}
-                    type="text"
+                    type="file"
+                    accept="image/*"
                     id="image_url"
                     className={inputClassName}
-                    value={mediaContent.imageUrl}
-                    onChange={(event) => {
+                    onChange={async (event) => {
                       setMediaContent({
                         ...mediaContent,
-                        imageUrl: event.target.value,
-                        allSet: !!event.target.value && !!mediaContent.videoUrl,
+                        imageUrl: event.target.files ? event.target.files![0] : '',
+                        allSet: !!event.target.files,
                       })
                     }}
                   />
@@ -139,11 +139,11 @@ export const Media: FC<{ theme: string }> = ({
                   </button>
                 </div>
               </div>
-              <div className={cn('w-full space-y-2')}>
+              {/* <div className={cn('w-full space-y-2')}>
                 <label htmlFor="video_url" className="text-base">
                   Video URL
-                </label>
-                <div className="flex items-center">
+                </label> */}
+              {/* <div className="flex items-center">
                   <input
                     {...methods.register('video_url')}
                     type="text"
@@ -172,7 +172,7 @@ export const Media: FC<{ theme: string }> = ({
                     />
                   </button>
                 </div>
-              </div>
+              </div> */}
               <Button className="mt-2">
                 <input
                   onClick={() => {

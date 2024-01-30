@@ -58,7 +58,11 @@
     "tailwind-merge": "^2.1.0",
     "tailwindcss-animate": "^1.0.7",
     "use-async-effect": "^2.2.7",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "@ucanto/core": "^9.0.1",
+    "@ucanto/principal": "^9.0.0",
+    "@web3-storage/w3up-client": "^11.2.1",
+    "web3.storage": "^4.5.5"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
