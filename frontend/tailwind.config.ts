@@ -1,6 +1,7 @@
-import type { Config } from 'tailwindcss'
-import colors from 'tailwindcss/colors'
-import defaultTheme from 'tailwindcss/defaultTheme'
+import type { Config } from 'tailwindcss';
+import colors from 'tailwindcss/colors';
+import defaultTheme from 'tailwindcss/defaultTheme';
+
 
 const config: Config = {
   darkMode: ['class'],
@@ -80,6 +81,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), require('daisyui')],
+  plugins: [require('tailwindcss-animate'), require('daisyui'), require('@tailwindcss/line-clamp')],
 }
 export default config

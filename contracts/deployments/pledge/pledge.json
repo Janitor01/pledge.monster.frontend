@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x6d573b3e222d5986de343684cb7a3bb42c43cb517bdb2a13326079b5d4cb1e89",
+    "hash": "0xe69a96373a2f729af48726a7b8284c122b130187824bfd51a0352d0083d7387b",
     "language": "ink! 4.3.0",
     "compiler": "rustc 1.75.0",
     "build_info": {
@@ -263,7 +263,7 @@
         ],
         "default": false,
         "docs": [],
-        "label": "get_sale_for_user",
+        "label": "get_contract_for_user",
         "mutates": false,
         "payable": false,
         "returnType": {
@@ -273,7 +273,7 @@
           ],
           "type": 22
         },
-        "selector": "0x3a685629"
+        "selector": "0xe8941f64"
       }
     ]
   },

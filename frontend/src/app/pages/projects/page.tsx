@@ -145,32 +145,36 @@ export default function ListProposal() {
             }`}
           >
             <div className="card m-0 mx-0 w-96 border border-solid bg-base-100">
-              <figure>
-                <img src={el.imageUrl} alt="Project Cover" />
-              </figure>
-              <div className="card-body">
-                <div className="flex">
-                  <h2 className="card-title w-2/4">Project Title: </h2>
-                  <h2 className="card-title  w-2/4">{el.title}</h2>
+              {/* <div className="m-0 mx-0 w-96 border border-solid bg-base-100"> */}
+              {/* <figure> */}
+              <div className="relative">
+                <img src={el.imageUrl} alt="Project Cover" className="rounded-t-xl" />
+                <div className="absolute bottom-1 right-1 flex w-3/4 flex-row justify-evenly">
+                  <span className="badge badge-ghost badge-sm bg-opacity-10 p-2 text-white">
+                    {el.category}
+                  </span>
+                  <span className="badge badge-ghost badge-sm bg-opacity-10 p-2 text-white">
+                    {el.subcategory}
+                  </span>
                 </div>
-                <div className="flex">
-                  <h2 className="card-title w-2/4">Category: </h2>
-                  <h2 className="card-title  w-2/4">{el.category}</h2>
-                </div>
+              </div>
 
-                {el.memberInfo
+              {/* </figure> */}
+              {/* </div> */}
+              <div className="card-body">
+                <h2 className="card-title w-2/4 text-2xl font-bold">{el.title}</h2>
+                <p className="line-clamp-3 text-sm text-slate-700">{el.elevatorPitch}</p>
+                {/* {el.memberInfo
                   .filter((filterEl, filterIndex) => filterIndex < 2)
                   .map((member, index) => (
                     <div className="flex items-center justify-between" key={index}>
                       <img className="mask mask-squircle h-12 w-12" src={member.imageUrl} />
-                      {/* <p className="w-2/4 text-center">
-                        {member.name}
-                      </p> */}
+
                       {member.name}
                       <br />
                       <span className="badge badge-ghost badge-sm">{member.role}</span>
                     </div>
-                  ))}
+                  ))} */}
 
                 <div className="card-actions justify-end">
                   {/* <Link
@@ -180,7 +184,7 @@ export default function ListProposal() {
                     }}
                   > */}
                   <button
-                    className="btn btn-primary w-full bg-primary"
+                    className="btn btn-primary mt-8 w-full bg-primary"
                     onClick={(event) => {
                       router.push(`/pages/info?params=${JSON.stringify({ ...el })}`)
                     }}

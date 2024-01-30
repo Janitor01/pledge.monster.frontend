@@ -69,7 +69,8 @@ mod decentralized_crowdfunding {
     pub struct DecentralizedCrowdfunding {
         owner: AccountId,
         project:   Project,
-        deployer: AccountId
+        deployer: AccountId,
+        total_funds_raised: u128
     }
 
     #[derive(Debug, PartialEq, Eq, scale::Encode, scale::Decode)]
@@ -88,7 +89,8 @@ mod decentralized_crowdfunding {
             Self {
                 owner,
                 project,
-                deployer: Self::env().caller()
+                deployer: Self::env().caller(),
+                total_funds_raised: 0
             }
         }
 
@@ -106,6 +108,10 @@ mod decentralized_crowdfunding {
             self.project.clone()
         }   
 
+        #[ink(message)]
+        pub fn get_total_funds(&self) -> u128{
+            self.total_funds_raised
+        }  
 
         #[ink(message)]
         pub fn update_project(
@@ -120,8 +126,9 @@ mod decentralized_crowdfunding {
         }
 
         #[ink(message, payable)]
-        pub fn fund_project(&mut self, _project_id: AccountId) -> Result<(), Error> {
-            let _amount = self.env().transferred_value();
+        pub fn fund_project(&mut self) -> Result<(), Error> {
+            let amount = self.env().transferred_value();
+            self.total_funds_raised = self.total_funds_raised + amount;
             Ok(())
         }
 

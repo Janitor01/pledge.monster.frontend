@@ -95,12 +95,13 @@ mod pledge_monster{
         }
 
         #[ink(message)]
-        pub fn get_sale_for_user (&self, index: u128) -> AccountId{
+        pub fn get_contract_for_user (&self, index: u128) -> AccountId{
             self.all_users[index as usize].clone()
         }
 
 
     }
-    //0x9c3f4e0ed8b5554bae91307de2f72d2a5dd19fa227638c99e1d0491e27d7db09
+    // 0x49c2d098e2510090ba27688473c5a0ea881420c6a771a4c7d2ef250d798bc427
+
 
 }
