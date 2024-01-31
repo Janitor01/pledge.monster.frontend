@@ -87,7 +87,7 @@ export const Story: FC = ({ storyContent, setStoryContent, validateNextPageEnabl
                   setStoryContent({
                     ...storyContent,
                     allSet: !!event.target.value && !!storyContent.story,
-                    risk: event.target.value,
+                    risks: event.target.value,
                   })
                 }}
               />

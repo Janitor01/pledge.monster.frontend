@@ -55,6 +55,15 @@ export const Goals: FC = ({ goalContent, setGoalContent, validateNextPageEnabled
       setEditingTierIndex(null) // Reset editing index
     } else {
       // It's a new addition
+      console.log({ tier })
+      setGoalContent({
+        ...goalContent,
+        rewardTier: [
+          ...goalContent.rewardTier,
+          { description: tier.description, amount: Number(tier.amount) },
+        ],
+      })
+      console.log(goalContent)
       append(tier)
     }
     setIsModalOpen(false)
@@ -110,10 +119,12 @@ export const Goals: FC = ({ goalContent, setGoalContent, validateNextPageEnabled
                   id="funding_goal"
                   className={inputClassName}
                   onChange={(event) => {
+                    console.log(Number(goalContent.goal) * 1e12)
                     console.log(event.target.value)
+                    console.log({ goalContent })
                     setGoalContent({
                       ...goalContent,
-                      amount: event.target.value,
+                      goal: event.target.value,
                       allSet: !!event.target.value,
                     })
                   }}
@@ -220,12 +231,12 @@ const RewardTierForm: FC<{ onConfirm: (tier: RewardTier) => void; initialData?: 
               placeholder="Amount Required"
               className={inputClassName}
             />
-            <textarea
+            <input
               {...register('description')}
+              type="text"
               placeholder="Description"
               className={inputClassName}
-              ref={descriptionRef}
-              onChange={adjustTextareaHeight}
+              // onChange={adjustTextareaHeight}
             />
             <Button type="submit">Confirm</Button>
           </form>

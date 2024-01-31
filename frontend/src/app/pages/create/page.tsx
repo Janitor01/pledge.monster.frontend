@@ -79,7 +79,7 @@ export default function CreatePage() {
   const [projectInfoContent, setProjectInfoContent] = useState({
     allSet: false,
     projectInfo: '',
-    projectImageuRL: '',
+    projectImageUrl: '',
     projectVideoUrl: '',
     twitter: '',
     telegram: '',
@@ -161,7 +161,7 @@ export default function CreatePage() {
     const ProjectInfo = {
       name: titleContent.title,
       info: projectInfoContent.projectInfo,
-      image_url: projectInfoContent.projectImageuRL,
+      image_url: projectInfoContent.projectImageUrl,
       video_url: projectInfoContent.projectVideoUrl,
       social_media_links: [
         projectInfoContent.twitter,
@@ -190,7 +190,7 @@ export default function CreatePage() {
       launch_date: new Date(launchTimeContent.launchDate).getTime(), // Unix timestamp
       duration: 20, // in seconds
       funding_goals: [Number(goalContent.goal) * 1e12],
-      reward_tiers: [RewardTier],
+      reward_tiers: goalContent.rewardTier,
       story: storyContent.story,
       risks_and_challenges: storyContent.risks,
       faqs: faqContent.faqs,

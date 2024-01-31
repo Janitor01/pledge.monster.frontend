@@ -69,37 +69,39 @@ export default function Info({ searchParams }) {
   }
 
   return (
-    <div className="flex w-full flex-col items-center bg-white">
-      <div className="mt-16 flex w-11/12">
+    <div className="flex w-full flex-col items-center bg-white ">
+      <div className="z-50 flex w-8/12 bg-white px-8 pt-16">
         {/* 1 left panel */}
-        <div className="w-3/5 flex-col  pb-2">
-          <h2 className=" text-4xl font-bold">{params.title}</h2>
-          <h2 className="text-sm text-slate-700">{params.elevatorPitch}</h2>
-          <div className="mt-2 flex flex-row space-x-2">
-            <h2 className="bg-slate-200 p-1 font-bold uppercase text-slate-700">
-              {params.category}
-            </h2>
+        <div className="w-4/5  pb-2 ">
+          <div className="w-10/12">
+            <h2 className=" text-4xl font-bold">{params.title}</h2>
+            <h2 className="text-sm text-slate-700">{params.elevatorPitch}</h2>
+            <div className="mt-2 flex flex-row space-x-2">
+              <h2 className="bg-slate-200 p-1 font-bold uppercase text-slate-700">
+                {params.category}
+              </h2>
 
-            <h2 className="bg-slate-200 p-1 font-bold uppercase text-slate-700">
-              {params.subcategory}
-            </h2>
+              <h2 className="bg-slate-200 p-1 font-bold uppercase text-slate-700">
+                {params.subcategory}
+              </h2>
+            </div>
+            <iframe
+              className="mt-2 h-96 w-full"
+              src={
+                params.projectInfo.videoUrl
+                  ? params.projectInfo.videoUrl
+                  : 'https://www.youtube.com/embed/E7wJTI-1dvQ'
+              }
+              frameborder="0"
+              allow="autoplay; encrypted-media"
+              allowfullscreen
+              title="video"
+            />
           </div>
-          <iframe
-            className="mt-2 h-96 w-full"
-            src={
-              params.projectInfo.videoUrl
-                ? params.projectInfo.videoUrl
-                : 'https://www.youtube.com/embed/E7wJTI-1dvQ'
-            }
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
-            title="video"
-          />
         </div>
 
         {/* 1 right panel */}
-        <div className=" flex w-2/5 flex-col items-center ">
+        <div className=" flex w-1/5 flex-col items-center ">
           {params.fun}
           <h2 className="card-title text-3xl font-bold text-black">${amountRaised / 1e12}</h2>
           <h2 className="mt-2 text-sm text-slate-700">
@@ -129,17 +131,19 @@ export default function Info({ searchParams }) {
       </div>
       {/* End of first section */}
 
-      <div className="mt-8 flex w-11/12">
-        <div className="bg-red flex w-3/5 flex-col">
-          <div className="flex flex-col items-center">
-            {/* <h2 className="text-4xl font-bold text-black">Human Memory is Imperfect</h2> */}
-            <p className="w-11/12 text-sm text-slate-800">{params.story}</p>
-            <img src={params.imageUrl} className="mt-2 h-96 w-11/12 rounded-2xl object-cover" />
-            <p className="mt-2 w-11/12 text-sm text-slate-800"> {params.risksAndChallenges}</p>
+      <div className="flex w-8/12 bg-white px-8 pt-8">
+        <div className="flex w-4/5 flex-col">
+          <div className="w-10/12">
+            <div className="flex flex-col">
+              {/* <h2 className="text-4xl font-bold text-black">Human Memory is Imperfect</h2> */}
+              <p className="w-11/12 text-sm text-slate-800">{params.story}</p>
+              <img src={params.imageUrl} className="mt-2 h-96 w-11/12 rounded-2xl object-cover" />
+              <p className="mt-2 w-11/12 text-sm text-slate-800"> {params.risksAndChallenges}</p>
+            </div>
           </div>
         </div>
         {/* right panel 2 */}
-        <div className="w-2/5 flex-col items-center">
+        <div className="w-1/5 flex-col items-center">
           <h2 className="text-center text-2xl font-bold text-slate-700">Reward Tiers </h2>
           <div className="divider divider-info"></div>
           {params.rewardTiers.map((reward, rewardIndex) => {
@@ -156,7 +160,7 @@ export default function Info({ searchParams }) {
         </div>
       </div>
       {/* End of second section */}
-      <div className="flex w-11/12 ">
+      <div className="flex w-8/12 ">
         <div className="mt-8 flex w-3/5 flex-col items-center  p-2">
           <div className="w-11/12">
             <div className="border-3 flex w-96 flex-col  items-center rounded-lg bg-slate-200 p-8 ">
@@ -180,9 +184,9 @@ export default function Info({ searchParams }) {
         <div className="w-2/5 "></div>
       </div>
 
-      <div className="mt-8 mt-8 flex flex-col items-center pb-8">
-        <h1 className="text-5xl font-bold"> Frequently Asked Questions</h1>
-        <div className="w-11/12">
+      <div className="mt-8 mt-8 flex w-8/12 flex-col items-start px-8 pb-8">
+        <h1 className="w-full text-center text-5xl font-bold"> Frequently Asked Questions</h1>
+        <div className="w-4/5">
           {params.faqs.map((faq, faqIndex) => {
             return (
               <div key={faqIndex}>

@@ -231,6 +231,7 @@ const TeamMemberFormModal: FC<{
         <Card className="card-component">
           <CardContent className="pb-3 pt-6">
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+              <Button type="submit">Confirm</Button>
               <input {...register('name')} placeholder="Name" className={inputClassName} />
               <input {...register('role')} placeholder="Role" className={inputClassName} />
               <input
@@ -274,7 +275,6 @@ const TeamMemberFormModal: FC<{
                   </div>
                 ))}
               </div>
-              <Button type="submit">Confirm</Button>
             </form>
           </CardContent>
         </Card>
