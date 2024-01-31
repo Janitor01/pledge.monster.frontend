@@ -25,7 +25,7 @@ Pledge Monster is designed to tap into the burgeoning crowdfunding industry, whi
 
 ## Setup and Installation
 
-**Smart Contract Address:** 5GaUvM4ATZMzQboH7aPFuaRb8MsnmjN4zgN4myWqGK4imC3U
+**Smart Contract Address:** 5CMtJa7Q1H43AeMGuCpKhEEXzzg1PgXwoGe118LM6KoZvYWs
 
 To set up Pledge Monster on your local machine:
 
