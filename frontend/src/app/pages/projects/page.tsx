@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
+import { Card, CardContent } from '@/components/ui/card'
 import { ContractIds } from '@/deployments/deployments'
 import { ApiPromise } from '@polkadot/api'
 import { ContractPromise } from '@polkadot/api-contract'
@@ -12,6 +12,25 @@ import {
   useInkathon,
   useRegisteredContract,
 } from '@scio-labs/use-inkathon'
+import { motion } from "framer-motion";
+import { FiArrowRight } from "react-icons/fi";
+
+const ShiftLetter = ({ letter }) => {
+  // If the letter is a space, render it directly without the motion effect
+  if (letter === " ") {
+    return " ";
+  }
+
+  return (
+    <motion.span
+      className="inline-block"
+      whileHover={{ y: ["0%", "-100%"] }}
+      transition={{ duration: 0.3, repeat: 0, repeatType: "reverse" }}
+    >
+      {letter}
+    </motion.span>
+  );
+};
 
 export default function ListProposal() {
   const { contract, address: contractAddress } = useRegisteredContract(ContractIds.pledge)
@@ -21,6 +40,7 @@ export default function ListProposal() {
   const [allProjects, setAllProjects] = useState([])
   const [refresh, setRefresh] = useState(true)
   const [loading, setLoading] = useState(false)
+
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -137,65 +157,58 @@ export default function ListProposal() {
     fetchProjects()
   }, [api, contract])
 
+  const MAX_CHARACTERS = 180; 
+
+
   return (
     <div>
       <div className="flex flex-col items-center">
-        {loading && <span className="loading loading-spinner loading-lg "></span>}
+        {loading && <span className="loading loading-spinner loading-lg"></span>}
       </div>
-      <div className="mb-8 flex w-full items-center justify-center ">
-        <div className="my-0 ml-0 mr-0 mt-8  flex w-9/12 flex-wrap justify-start  space-x-8 space-y-2 pr-8">
+      <div className="mb-8 flex w-full items-center justify-center">
+        <div className="my-0 ml-0 mr-0 mt-8 flex w-9/12 flex-wrap justify-center space-x-8 space-y-2 pr-8">
           {allProjects.map((el, index) => (
-            <div
+            <motion.div
               key={index}
-              className={`container flex w-96 flex-col items-center justify-center  ${
+              whileHover={{ scale: 1.02 }} 
+              transition={{ duration: 0.2 }} 
+              className={`container flex w-96 flex-col items-center justify-center ${
                 index === 0 ? 'm-0 ml-8 mt-0' : ''
               }`}
             >
-              <div className="card m-0 mx-0 w-96 border border-solid bg-base-100">
-                {/* <div className="m-0 mx-0 w-96 border border-solid bg-base-100"> */}
-                {/* <figure> */}
-                <div className="relative">
-                  <img
-                    src={el.imageUrl}
-                    alt="Project Cover"
-                    className="h-40 w-full rounded-t-xl object-cover"
-                  />
-                  <div className="absolute bottom-1 right-1 flex w-3/4 flex-row justify-evenly">
-                    <span className="badge badge-ghost badge-sm bg-opacity-10 p-2 text-white">
-                      {el.category}
-                    </span>
-                    <span className="badge badge-ghost badge-sm bg-opacity-10 p-2 text-white">
-                      {el.subcategory}
-                    </span>
-                  </div>
-                </div>
-
-                {/* </figure> */}
-                {/* </div> */}
-                <div className="card-body">
-                  <h2 className="card-title line-clamp-1 w-3/4 text-2xl font-bold">{el.title}</h2>
-                  <p className="line-clamp-3 max-h-[3.5rem] min-h-[3.5rem] text-sm text-slate-700">
-                    {el.elevatorPitch}
-                  </p>
-                  {/* {el.memberInfo
-                  .filter((filterEl, filterIndex) => filterIndex < 2)
-                  .map((member, index) => (
-                    <div className="flex items-center justify-between" key={index}>
-                      <img className="mask mask-squircle h-12 w-12" src={member.imageUrl} />
-
-                      {member.name}
-                      <br />
-                      <span className="badge badge-ghost badge-sm">{member.role}</span>
+              <Card className="m-0 mx-0 w-96 card-component overflow-hidden rounded-xl">
+                <CardContent className="!p-0 !pt-0">
+                  <div className="relative">
+                    <img
+                      src={el.imageUrl}
+                      alt="Project Cover"
+                      className="h-40 w-full object-cover"
+                    />
+                    <div className="absolute bottom-1 right-1 flex w-3/4 flex-row justify-evenly">
+                      <span className="badge badge-ghost badge-sm bg-opacity-60 p-2 text-white">
+                        {el.category}
+                      </span>
+                      <span className="badge badge-ghost badge-sm bg-opacity-60 p-2 text-white">
+                        {el.subcategory}
+                      </span>
                     </div>
-                  ))} */}
-
-                  <div className="card-actions justify-end">
-                    {/* <Link
-                    href={{
-                      pathname: '/pages/info',
-                      query: el,
-                    }}
-                  > */}
+                  </div>
+                  <div className="p-6 overflow-visible">
+                  <h2 className="card-title line-clamp-1 w-3/4 text-2xl font-bold overflow-visible">
+                      {el.title.split("").map((char, i) => (
+                        <ShiftLetter key={i} letter={char} />
+                      ))}
+                    </h2>
+                    
+                    <p className="line-clamp-3 max-h-[3.5rem] min-h-[3.5rem] text-sm text-slate-500 overflow-visible">
+                      {el.elevatorPitch.substring(0, MAX_CHARACTERS).split("").map((char, i) => (
+                        <ShiftLetter key={i} letter={char} />
+                      ))}
+                      {/* Add ellipsis if the text is longer than the max characters */}
+                      {el.elevatorPitch.length > MAX_CHARACTERS ? '...' : ''}
+                    </p>
+                  </div>
+                  <div className="card-actions justify-end p-6 pt-0">
                     <button
                       className="btn btn-primary mt-8 w-full bg-primary"
                       onClick={(event) => {
@@ -204,14 +217,23 @@ export default function ListProposal() {
                     >
                       View More
                     </button>
-                    {/* </Link> */}
                   </div>
-                </div>
-              </div>
-            </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>
     </div>
-  )
+
+
+
+);
+
+
+
+
+  
+  
+
 }

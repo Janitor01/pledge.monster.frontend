@@ -15,7 +15,7 @@ import { ToastConfig } from '@/app/toast-config'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { env } from '@/config/environment'
 import { cn } from '@/utils/cn'
-
+import PledgeMonster from 'public/images/Pledge-Monster.png'
 import { HomeTopBar } from './components/home-top-bar'
 import './globals.css'
 import ClientProviders from './providers'
@@ -71,9 +71,11 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" className={cn('dark', GeistSans.variable, GeistMono.variable)}>
       <Head>
-        <title>The Monster Pledge</title>
+        <title>Pledge Monster</title>
       </Head>
       <body>
+
+        
         <ClientProviders>
           <HomeTopBar />
           <TooltipProvider>{children}</TooltipProvider>
@@ -82,6 +84,12 @@ export default function RootLayout({ children }: PropsWithChildren) {
 
         {!!env.isProduction && <Analytics />}
 
+        <div className="fixed bottom-0 left-20 z-0 pointer-events-none" style={{ width: '250px' }}>
+  <Image src={PledgeMonster} alt="Pledge Monster" width={500} height={500} objectFit="contain" priority />
+</div>
+
+
+      
         <p className="mb-4 mt-4 text-center font-mono text-xs text-gray-600">
           pledge.monster <br />
           decentralized fundraising
@@ -97,6 +105,8 @@ export default function RootLayout({ children }: PropsWithChildren) {
               alt={`${themeLabel} Theme Icon`}
             />
           </button>
+
+          
         </div>
       </body>
     </html>

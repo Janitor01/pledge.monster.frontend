@@ -10,6 +10,7 @@ import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import Image from 'next/image'
 
 import './globals.css'
 import Projects from './pages/projects/page'
@@ -40,6 +41,9 @@ export default function HomePage() {
 
   return (
     <>
+     
+
+
       <div className="relative mt-0">{/* <HomeTopBar /> */}</div>
       <Projects />
     </>
